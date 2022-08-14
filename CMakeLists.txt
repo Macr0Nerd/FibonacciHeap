@@ -1,0 +1,92 @@
+cmake_minimum_required(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+project(FibonacciHeap VERSION 0.0.0 LANGUAGES CXX)
+
+#################################
+# This is to create the library #
+#################################
+
+add_library(${PROJECT_NAME} INTERFACE)
+add_library(GRon::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+# Uncomment to add application to library
+# Don't forget to comment out the existing set_target_properties
+add_executable(${PROJECT_NAME}_app app/main.cpp)
+target_link_libraries(${PROJECT_NAME}_app PRIVATE GRon::${PROJECT_NAME})
+
+set_target_properties(FibonacciHeap FibonacciHeap_app PROPERTIES
+       CXX_STANDARD 17
+       CXX_STANDARD_REQUIRED ON
+       CXX_EXTENSIONS OFF
+       PREFIX ""
+       )
+
+# set_target_properties(${PROJECT_NAME} PROPERTIES
+#         CXX_STANDARD 17
+#         CXX_STANDARD_REQUIRED ON
+#         CXX_EXTENSIONS OFF
+#         PREFIX ""
+#         )
+
+target_include_directories(${PROJECT_NAME}
+        INTERFACE
+        $<INSTALL_INTERFACE:include/>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        )
+
+add_subdirectory(src)
+
+# if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+#     include(CTest)
+# endif ()
+
+##########################
+# Installing the library #
+##########################
+
+include(GNUInstallDirs)
+set(INSTALL_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+
+install(TARGETS ${PROJECT_NAME}
+        EXPORT ${PROJECT_NAME}Targets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        )
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion
+        ARCH_INDEPENDENT
+)
+configure_package_config_file(
+        ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        INSTALL_DESTINATION ${INSTALL_CONFIG_DIR}
+)
+
+install(EXPORT ${PROJECT_NAME}Targets
+        FILE ${PROJECT_NAME}Targets.cmake
+        NAMESPACE GRon::
+        DESTINATION ${INSTALL_CONFIG_DIR}
+        )
+
+install(FILES
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        DESTINATION ${INSTALL_CONFIG_DIR}
+        )
+
+install(DIRECTORY include/GRon DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+export(
+        EXPORT ${PROJECT_NAME}Targets
+        NAMESPACE GRon::
+        FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
+)
+
+set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
+export(PACKAGE ${PROJECT_NAME})
+
+# if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+#     add_subdirectory(tests)
+# endif ()

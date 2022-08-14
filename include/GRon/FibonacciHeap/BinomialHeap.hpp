@@ -1,0 +1,6 @@
+#ifndef FIBONACCIHEAP_LIBRARY_H
+#define FIBONACCIHEAP_LIBRARY_H
+
+void hello();
+
+#endif //FIBONACCIHEAP_LIBRARY_H
