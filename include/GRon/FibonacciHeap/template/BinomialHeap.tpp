@@ -21,10 +21,20 @@ size_t BinomialHeap<T>::Node::size() const {
 }
 
 template<std::three_way_comparable T>
+bool BinomialHeap<T>::Node::operator==(const BinomialHeap::Node& obj) const {
+    return value == obj.value;
+}
+
+template<std::three_way_comparable T>
+std::weak_ordering BinomialHeap<T>::Node::operator<=>(Node obj) const {
+    return value <=> obj.value;
+}
+
+template<std::three_way_comparable T>
 std::ostream& BinomialHeap<T>::Node::streamInsertion(std::ostream &os) const {
     os << value << std::endl;
     for (auto i : children) {
-        os << "|\t" << i << std::endl;
+        os << "|\t" << i;
     }
 
     return os;
@@ -110,6 +120,19 @@ std::optional<typename BinomialHeap<T>::Node> BinomialHeap<T>::get_minimum() {
     return minimum;
 }
 
+template<std::three_way_comparable T>
+std::optional<typename BinomialHeap<T>::Node> BinomialHeap<T>::pop_minimum() {
+    const std::optional<Node> ret = get_minimum();
+
+    if (ret.has_value()) {
+        root_list.insert(root_list.end(), ret.value().children.begin(), ret.value().children.end());
+        root_list.erase(std::remove(root_list.begin(), root_list.end(), ret.value()), root_list.end());
+    }
+
+    clean_flag = true;
+
+    return ret;
+}
 
 template<class Y>
 std::ostream& operator<<(std::ostream& os, const BinomialHeap<Y>& obj) {

@@ -15,7 +15,9 @@ int main(int argc, char * argv[]) {
 
     std::cout << test << std::endl;
 
-    std::cout << "Minimum: " << test.get_minimum().value().value << std::endl;
+    auto x = test.pop_minimum();
+
+    std::cout << "Minimum: " << x.value().value << std::endl;
 
     return 0;
 }

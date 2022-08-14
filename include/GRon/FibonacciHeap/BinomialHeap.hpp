@@ -22,6 +22,10 @@ public:
         [[nodiscard]] size_t degree() const;
         [[nodiscard]] size_t size() const;
 
+        bool operator==(const Node& obj) const;
+
+        std::weak_ordering operator<=>(Node obj) const;
+
         friend std::ostream& operator<<(std::ostream& os, const Node& obj) {
             return obj.streamInsertion(os);
         }
@@ -40,6 +44,7 @@ public:
     void insert(T value);
 
     std::optional<Node> get_minimum();
+    std::optional<Node> pop_minimum();
 
     template<class Y> friend std::ostream& operator<<(std::ostream& os, const BinomialHeap<Y>& obj);
 
