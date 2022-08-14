@@ -17,7 +17,7 @@ int main(int argc, char * argv[]) {
 
     auto x = test.pop_minimum();
 
-    std::cout << "Minimum: " << x.value().value << std::endl;
+    std::cout << "Minimum: " << x.value().key << std::endl;
 
     return 0;
 }

@@ -14,9 +14,9 @@ class BinomialHeap {
 public:
     struct Node {
         std::vector<Node> children = {};
-        T value;
+        T key;
 
-        explicit Node(T value) : value(value), children() {};
+        explicit Node(T value) : key(value), children() {};
         virtual ~Node() = default;
 
         [[nodiscard]] size_t degree() const;

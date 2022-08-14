@@ -22,20 +22,22 @@ size_t BinomialHeap<T>::Node::size() const {
 
 template<std::three_way_comparable T>
 bool BinomialHeap<T>::Node::operator==(const BinomialHeap::Node& obj) const {
-    return value == obj.value;
+    return key == obj.key;
 }
 
 template<std::three_way_comparable T>
 std::weak_ordering BinomialHeap<T>::Node::operator<=>(Node obj) const {
-    return value <=> obj.value;
+    return key <=> obj.key;
 }
 
 template<std::three_way_comparable T>
 std::ostream& BinomialHeap<T>::Node::streamInsertion(std::ostream &os) const {
-    os << value << std::endl;
+    os << key << '[';
     for (auto i : children) {
-        os << "|\t" << i;
+        os << i;
     }
+
+    os << ']';
 
     return os;
 }
@@ -82,7 +84,7 @@ std::optional<typename BinomialHeap<T>::Node> BinomialHeap<T>::get_minimum() {
 
             Node node = root_list.at(i);
             while (degree_list.at(degree).has_value()) {
-                auto res = node.value <=> degree_list.at(degree).value().value;
+                auto res = node.key <=> degree_list.at(degree).value().key;
 
                 if (res < 0) {
                     node.children.push_back(degree_list.at(degree).value());
@@ -108,7 +110,7 @@ std::optional<typename BinomialHeap<T>::Node> BinomialHeap<T>::get_minimum() {
         }
 
         for (auto i : root_list) {
-            if (!minimum.has_value() || i.value < minimum.value().value) {
+            if (!minimum.has_value() || i.key < minimum.value().key) {
                 minimum = i;
                 continue;
             }
