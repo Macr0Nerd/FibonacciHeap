@@ -14,14 +14,14 @@ add_executable(${PROJECT_NAME}_app app/main.cpp)
 target_link_libraries(${PROJECT_NAME}_app PRIVATE GRon::${PROJECT_NAME})
 
 set_target_properties(FibonacciHeap FibonacciHeap_app PROPERTIES
-       CXX_STANDARD 17
+       CXX_STANDARD 20
        CXX_STANDARD_REQUIRED ON
        CXX_EXTENSIONS OFF
        PREFIX ""
        )
 
 # set_target_properties(${PROJECT_NAME} PROPERTIES
-#         CXX_STANDARD 17
+#         CXX_STANDARD 20
 #         CXX_STANDARD_REQUIRED ON
 #         CXX_EXTENSIONS OFF
 #         PREFIX ""
@@ -33,7 +33,6 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         )
 
-add_subdirectory(src)
 
 # if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 #     include(CTest)
