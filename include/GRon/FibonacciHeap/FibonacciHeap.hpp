@@ -17,7 +17,7 @@ public:
         T key;
         bool marked{};
         std::vector<Node*> children{};
-        std::shared_ptr<Node> parent{nullptr};
+        Node* parent{nullptr};
 
         explicit Node(T value) : key(value) {};
         virtual ~Node() = default;
@@ -35,7 +35,6 @@ public:
 
     private:
         std::ostream& streamInsertion(std::ostream& os) const;
-        const Node* address() const { return this; }
     };
 
     std::vector<Node*> root_list;
@@ -54,7 +53,7 @@ public:
 
     template<class Y> friend std::ostream& operator<<(std::ostream& os, const FibonacciHeap<Y>& obj);
 
-//protected:
+protected:
     bool clean_flag{false};
     Node* minimum{nullptr};
     std::map<T, Node> location;

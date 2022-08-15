@@ -32,10 +32,12 @@ std::weak_ordering FibonacciHeap<T>::Node::operator<=>(Node& obj) const {
 
 template<std::three_way_comparable T>
 std::ostream& FibonacciHeap<T>::Node::streamInsertion(std::ostream &os) const {
-    os << key << '(' << this->address() << ')' << std::endl;
+    os << key << '[';
     for (auto& i : children) {
-        os << i;
+        os << *i;
     }
+
+    os << ']';
 
     return os;
 }
@@ -85,10 +87,10 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
                 auto res = node->key <=> degree_list.at(degree)->key;
 
                 if (res < 0) {
-                    degree_list.at(degree)->parent.reset(node);
+                    degree_list.at(degree)->parent= node;
                     node->children.push_back(degree_list.at(degree));
                 } else {
-                    node->parent.reset(degree_list.at(degree));
+                    node->parent= degree_list.at(degree);
                     degree_list.at(degree)->children.push_back(node);
                     node = degree_list.at(degree);
                 }
@@ -145,20 +147,18 @@ void FibonacciHeap<T>::cut_key(FibonacciHeap::Node& node, const T& key) {
 
     node.key = key;
     node.marked = false;
-    std::shared_ptr<Node> old_parent = node.parent;
+    Node* old_parent = node.parent;
     node.parent = nullptr;
 
     root_list.push_back(&node);
 
     if (old_parent != nullptr) {
-        node.parent->children.erase(
-                std::remove(node.parent->children.begin(), node.parent->children.end(), &node),
-                node.parent->children.end());
+        old_parent->children.erase(std::remove(old_parent->children.begin(), old_parent->children.end(), &node));
 
-        if (!node.parent->marked) {
-            node.parent->marked = true;
+        if (!old_parent->marked) {
+            old_parent->marked = true;
         } else {
-            cut_key(*node.parent, node.parent->key);
+            cut_key(*old_parent, old_parent->key);
         }
     }
 }
@@ -168,8 +168,8 @@ void FibonacciHeap<T>::alter_key(const T& key, const T& new_key) {
     if (!location.contains(key) && location.contains(new_key)) return;
 
     auto old = location.extract(key);
+    old.key() = new_key;
     location.insert(std::move(old));
-    location.erase(key);
 
     cut_key(location.at(new_key), new_key);
 }
@@ -177,7 +177,7 @@ void FibonacciHeap<T>::alter_key(const T& key, const T& new_key) {
 template<class Y>
 std::ostream& operator<<(std::ostream& os, const FibonacciHeap<Y>& obj) {
     for (auto& i : obj.root_list){
-        os << i;
+        os << *i << std::endl;
     }
 
     return os;
