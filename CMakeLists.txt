@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+cmake_minimum_required(VERSION 3.20)
 project(FibonacciHeap VERSION 0.0.0 LANGUAGES CXX)
 
 #################################
@@ -8,35 +8,18 @@ project(FibonacciHeap VERSION 0.0.0 LANGUAGES CXX)
 add_library(${PROJECT_NAME} INTERFACE)
 add_library(GRon::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-# Uncomment to add application to library
-# Don't forget to comment out the existing set_target_properties
-add_executable(${PROJECT_NAME}_app app/main.cpp)
-target_link_libraries(${PROJECT_NAME}_app PRIVATE GRon::${PROJECT_NAME})
-
-set_target_properties(FibonacciHeap FibonacciHeap_app PROPERTIES
-       CXX_STANDARD 20
-       CXX_STANDARD_REQUIRED ON
-       CXX_EXTENSIONS OFF
-       PREFIX ""
-       )
-
-# set_target_properties(${PROJECT_NAME} PROPERTIES
-#         CXX_STANDARD 20
-#         CXX_STANDARD_REQUIRED ON
-#         CXX_EXTENSIONS OFF
-#         PREFIX ""
-#         )
+set_target_properties(${PROJECT_NAME} PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+        CXX_EXTENSIONS OFF
+        PREFIX ""
+        )
 
 target_include_directories(${PROJECT_NAME}
         INTERFACE
         $<INSTALL_INTERFACE:include/>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         )
-
-
-# if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-#     include(CTest)
-# endif ()
 
 ##########################
 # Installing the library #
@@ -86,6 +69,6 @@ export(
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 export(PACKAGE ${PROJECT_NAME})
 
-# if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-#     add_subdirectory(tests)
-# endif ()
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+    add_subdirectory(tests)
+endif ()

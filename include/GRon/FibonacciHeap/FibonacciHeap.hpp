@@ -1,8 +1,9 @@
 #pragma once
 
-#ifndef GRON_BINOMIAL_HEAP_HPP
-#define GRON_BINOMIAL_HEAP_HPP
+#ifndef GRON_FIBONACCI_HEAP_HPP
+#define GRON_FIBONACCI_HEAP_HPP
 
+#include <compare>
 #include <concepts>
 #include <map>
 #include <memory>
@@ -20,6 +21,11 @@ public:
         Node* parent{nullptr};
 
         explicit Node(T value) : key(value) {};
+
+        Node(const Node&) = default;
+        Node(Node&&) noexcept = default;
+        Node& operator=(const Node&) = default;
+        Node& operator=(Node&&) noexcept = default;
         virtual ~Node() = default;
 
         [[nodiscard]] size_t degree() const;
@@ -40,6 +46,11 @@ public:
     std::vector<Node*> root_list;
 
     FibonacciHeap() = default;
+
+    FibonacciHeap(const FibonacciHeap&) = default;
+    FibonacciHeap(FibonacciHeap&&) noexcept = default;
+    FibonacciHeap& operator=(const FibonacciHeap&) = default;
+    FibonacciHeap& operator=(FibonacciHeap&&) noexcept = default;
     virtual ~FibonacciHeap() = default;
 
     [[nodiscard]] size_t size() const;
@@ -47,7 +58,7 @@ public:
     void insert(const T& value);
 
     Node* get_minimum();
-    Node* pop_minimum();
+    std::optional<Node> pop_minimum();
 
     void alter_key(const T& key, const T& new_key);
 
@@ -62,4 +73,4 @@ protected:
 };
 
 #include "GRon/FibonacciHeap/template/FibonacciHeap.tpp"
-#endif //GRON_BINOMIAL_HEAP_HPP
+#endif //GRON_FIBONACCI_HEAP_HPP

@@ -6,7 +6,7 @@
 // Node
 template<std::three_way_comparable T>
 size_t FibonacciHeap<T>::Node::degree() const {
-    return (size_t) std::max(log2((double) children.size()), 0.0);
+    return children.size();
 }
 
 template<std::three_way_comparable T>
@@ -87,10 +87,10 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
                 auto res = node->key <=> degree_list.at(degree)->key;
 
                 if (res < 0) {
-                    degree_list.at(degree)->parent= node;
+                    degree_list.at(degree)->parent = node;
                     node->children.push_back(degree_list.at(degree));
                 } else {
-                    node->parent= degree_list.at(degree);
+                    node->parent = degree_list.at(degree);
                     degree_list.at(degree)->children.push_back(node);
                     node = degree_list.at(degree);
                 }
@@ -99,7 +99,7 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
 
                 if (degree + 1 >= degree_list.size()) break;
 
-                degree++;
+                degree = node->degree();
             }
 
             degree_list.at(degree) = node;
@@ -113,7 +113,7 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
         }
 
         for (auto& i : root_list) {
-            if (minimum == nullptr || i->key < minimum->key) {
+            if (minimum == nullptr || i->key <= minimum->key) {
                 minimum = i;
                 continue;
             }
@@ -126,14 +126,18 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
 }
 
 template<std::three_way_comparable T>
-typename FibonacciHeap<T>::Node* FibonacciHeap<T>::pop_minimum() {
-    const std::shared_ptr<Node> ret = get_minimum();
+std::optional<typename FibonacciHeap<T>::Node> FibonacciHeap<T>::pop_minimum() {
+    const Node* pop_min = get_minimum();
 
-    if (ret != nullptr) {
-        root_list.insert(root_list.end(), ret->children.begin(), ret->children.end());
-        root_list.erase(std::remove(root_list.begin(), root_list.end(), ret), root_list.end());
-    }
+    if (pop_min == nullptr) return std::nullopt;
 
+    Node ret{*pop_min};
+
+    root_list.insert(root_list.end(), pop_min->children.begin(), pop_min->children.end());
+    root_list.erase(std::remove(root_list.begin(), root_list.end(), pop_min), root_list.end());
+    location.erase(pop_min->key);
+
+    minimum = nullptr;
     clean_flag = true;
 
     return ret;
