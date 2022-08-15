@@ -55,7 +55,7 @@ public:
 
     [[nodiscard]] size_t size() const;
 
-    void insert(const T& value);
+    void insert(const T& key);
 
     Node* get_minimum();
     std::optional<Node> pop_minimum();
