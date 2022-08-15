@@ -1,6 +1,21 @@
 cmake_minimum_required(VERSION 3.20)
 project(FibonacciHeap VERSION 0.0.0 LANGUAGES CXX)
 
+################
+# Dependencies #
+################
+
+Include(FetchContent)
+
+FetchContent_Declare(
+        Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG        v3.1.0
+)
+
+FetchContent_MakeAvailable(Catch2)
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+
 #################################
 # This is to create the library #
 #################################
@@ -20,6 +35,11 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:include/>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         )
+
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    include(CTest)
+    include(Catch)
+endif ()
 
 ##########################
 # Installing the library #
