@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(FibonacciHeap VERSION 0.0.0 LANGUAGES CXX)
+project(FibonacciHeap VERSION 1.0.0 LANGUAGES CXX)
 
 ################
 # Dependencies #

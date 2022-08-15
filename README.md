@@ -3,6 +3,7 @@
 ##### Jump To
 * [Requirements](#requirements)
 * [Usage](#usage)
+* [API](#api)
 * [Building](#building)
 * [License](#license)
 
@@ -17,6 +18,16 @@ For further explanations as to what this means, please watch [the video this pro
 * CTest
 
 ## Usage
+This project is designed with Modern CMake principals in mind, so it can easily be used with other CMake projects.
+Either install or otherwise link the project, and add:
+
+```cmake
+find_package(FibonacciHeap 1.0.0 REQUIRED)
+# Add Targets
+target_link_libraries(foo PRIVATE GRon::FibonacciHeap)
+```
+
+## API
 The API for the Fibonacci Heap is quite simple:
 
 * `FibonacciHeap<std::three_way_comparable T>`
@@ -73,8 +84,16 @@ The API for the Fibonacci Heap is quite simple:
     ```bash
     cmake --build build/ --config RELEASE
     ```
+   
+5. Install the project. Examples for Ninja and Make have been provided
 
-5. (Optional) Run tests
+    ```bash
+    cd build
+    make install
+    ninja install
+    ```
+
+6. (Optional) Run tests
 
     ```bash
     cd build
