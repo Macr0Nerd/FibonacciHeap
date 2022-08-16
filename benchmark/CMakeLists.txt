@@ -26,7 +26,7 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/CppBenchmark/CMakeLists.txt")
 endif()
 
 add_subdirectory(extern/CppBenchmark)
-target_link_libraries(${PROJECT_NAME} PRIVATE CppBenchmark)
+target_link_libraries(${PROJECT_NAME} PUBLIC cppbenchmark)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
         CXX_STANDARD 20
