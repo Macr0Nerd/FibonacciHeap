@@ -45,13 +45,7 @@ std::ostream& FibonacciHeap<T>::Node::streamInsertion(std::ostream &os) const {
 // Binomial Heap
 template<std::three_way_comparable T>
 size_t FibonacciHeap<T>::size() const {
-    size_t ret = 0;
-
-    for (auto& i : root_list){
-        ret += i->size();
-    }
-
-    return ret;
+    return location.size();
 }
 
 template<std::three_way_comparable T>

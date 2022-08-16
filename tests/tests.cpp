@@ -6,14 +6,18 @@
 TEST_CASE("heap basic functions", "[heap]") {
     FibonacciHeap<int> test{};
 
-    REQUIRE(test.size() == 0);
-    REQUIRE(test.get_minimum() == nullptr);
+    SECTION("init") {
+        REQUIRE(test.size() == 0);
+        REQUIRE(test.get_minimum() == nullptr);
+    }
 
     SECTION("insert") {
         test.insert(5);
         test.insert(-1);
         test.insert(0);
         test.insert(15);
+
+        REQUIRE(test.size() == 4);
 
         REQUIRE(test.root_list.at(0)->key == 5);
         REQUIRE(test.root_list.at(1)->key == -1);
@@ -40,6 +44,8 @@ TEST_CASE("heap basic functions", "[heap]") {
         SECTION("pop_minimum") {
             int min_key = min->key;
             FibonacciHeap<int>::Node pop_min = test.pop_minimum().value();
+
+            REQUIRE(test.size() == 3);
 
             REQUIRE(pop_min.key == min_key);
 
@@ -72,6 +78,7 @@ TEST_CASE("heap basic functions", "[heap]") {
 
         min = test.get_minimum();
 
+        REQUIRE(test.size() == 8);
         REQUIRE(min->key == -15);
         REQUIRE(test.root_list.at(0)->key == 8);
         REQUIRE(test.root_list.at(1)->key == -15);
