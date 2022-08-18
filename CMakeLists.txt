@@ -5,16 +5,35 @@ project(FibonacciHeap VERSION 1.0.0 LANGUAGES CXX)
 # Dependencies #
 ################
 
-Include(FetchContent)
+find_package(Catch2 3 QUIET)
+if(NOT Catch2_FOUND)
+    message(STATUS "Catch2 not found, fetching")
+    Include(FetchContent)
 
-FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG        v3.1.0
-)
+    FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG        v3.1.0
+    )
 
-FetchContent_MakeAvailable(Catch2)
-list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+    FetchContent_MakeAvailable(Catch2)
+    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+endif()
+
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/../.git")
+    # Update submodules as needed
+    option(GIT_SUBMODULE "Check submodules during build" ON)
+    if(GIT_SUBMODULE)
+        message(STATUS "Submodule update")
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                RESULT_VARIABLE GIT_SUBMOD_RESULT)
+        if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+            message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+        endif()
+    endif()
+endif()
 
 #################################
 # This is to create the library #
@@ -39,6 +58,29 @@ target_include_directories(${PROJECT_NAME}
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(CTest)
     include(Catch)
+endif ()
+
+##########################
+# Set optimization flags #
+##########################
+
+if (NOT CMAKE_CXX_FLAGS)
+    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+        if (MSVC)
+            list(APPEND CMAKE_CXX_FLAGS "/O0")
+        else ()
+            list(APPEND CMAKE_CXX_FLAGS "-O0")
+        endif ()
+    else ()
+        if (MSVC)
+            list(APPEND CMAKE_CXX_FLAGS "/O3")
+        else ()
+            list(APPEND CMAKE_CXX_FLAGS "-O3")
+        endif ()
+    endif ()
+    message("Setting CXX flags to default for ${CMAKE_BUILD_TYPE} mode (${CMAKE_CXX_FLAGS})")
+else ()
+    message("CXX flags are already set to ${CMAKE_CXX_FLAGS}")
 endif ()
 
 ##########################

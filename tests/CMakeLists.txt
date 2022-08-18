@@ -10,3 +10,13 @@ set_target_properties(${PROJECT_NAME}_tests PROPERTIES
         )
 
 catch_discover_tests(${PROJECT_NAME}_tests)
+
+add_executable(${PROJECT_NAME}_profile profile.cpp)
+target_link_libraries(${PROJECT_NAME}_profile PRIVATE GRon::FibonacciHeap)
+
+set_target_properties(${PROJECT_NAME}_profile PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+        CXX_EXTENSIONS OFF
+        PREFIX ""
+        )
