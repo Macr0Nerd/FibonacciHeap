@@ -1,5 +1,7 @@
 # Fibonacci Heap
 
+![example workflow](https://github.com/Macr0Nerd/FibonacciHeap/actions/workflows/cmake.yml/badge.svg)
+
 ##### Jump To
 * [Requirements](#requirements)
 * [Usage](#usage)
