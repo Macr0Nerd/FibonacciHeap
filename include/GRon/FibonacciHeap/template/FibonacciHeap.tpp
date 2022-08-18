@@ -60,7 +60,7 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
     if (clean_flag) {
         std::optional<size_t> max_degree = std::nullopt;
 
-        max_degree = std::log2(size());
+        max_degree = ceil(std::log2f((double) size()) * 1.618);
 
         std::vector<Node*> degree_list;
         if (max_degree.has_value()) {
