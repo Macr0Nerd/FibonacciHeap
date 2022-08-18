@@ -5,7 +5,7 @@
 
 #include <compare>
 #include <concepts>
-#include <map>
+#include <unordered_map>
 #include <memory>
 #include <optional>
 #include <ostream>
@@ -67,7 +67,7 @@ public:
 protected:
     bool clean_flag{false};
     Node* minimum{nullptr};
-    std::map<T, Node> location;
+    std::unordered_map<T, Node> location;
 
     void cut_key(Node& node, const T& key);
 };
