@@ -6,7 +6,7 @@ project(FibonacciHeap VERSION 1.0.0 LANGUAGES CXX)
 ################
 
 find_package(Catch2 3 QUIET)
-if(NOT Catch2_FOUND)
+if(NOT ${Catch2_FOUND})
     message(STATUS "Catch2 not found, fetching")
     Include(FetchContent)
 
