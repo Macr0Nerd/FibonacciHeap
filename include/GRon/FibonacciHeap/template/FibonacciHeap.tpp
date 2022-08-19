@@ -51,7 +51,7 @@ size_t FibonacciHeap<T>::size() const {
 template<std::three_way_comparable T>
 void FibonacciHeap<T>::insert(const T& key) {
     clean_flag = true;
-    location.template emplace(key, key);
+    location.emplace(key, key);
     root_list.push_back(&location.at(key));
 }
 
@@ -78,9 +78,7 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
 
             Node* node = root_list.at(i);
             while (degree_list.at(degree) != nullptr) {
-                auto res = node->key <=> degree_list.at(degree)->key;
-
-                if (res < 0) {
+                if (node->key < degree_list.at(degree)->key) {
                     degree_list.at(degree)->parent = node;
                     node->children.push_back(degree_list.at(degree));
                 } else {
