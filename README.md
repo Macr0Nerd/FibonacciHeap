@@ -16,7 +16,7 @@ For further explanations as to what this means, please watch [the video this pro
 
 ## Requirements
 * C++20 (`concepts` & `compare`)
-* CMake 3.20 or greater
+* CMake 3.24 or greater
 * CTest
 
 ## Usage
