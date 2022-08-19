@@ -20,13 +20,13 @@ int main() {
             std::cout << '\r' << (i/(double) n) * 100 << "% Complete" << std::flush;
         }
 
-        if (!(rand() % ratio) ^ invert) {
+        if (!(i % ratio) ^ invert) {
             test.pop_minimum();
             pop_cnt++;
             continue;
         }
 
-        test.insert(rand());
+        test.insert(i);
         insert_cnt++;
     }
 

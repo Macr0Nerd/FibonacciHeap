@@ -49,8 +49,8 @@ void run(T& heap, size_t n, int ratio, bool invert = false) {
     }
 }
 
-/*
-*//**
+
+/**
  * GRon::priority_queue_mfh, n=100
  */
 BENCHMARK_FIXTURE(HeapFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=100, ratio=4)", run_inf) {

@@ -149,7 +149,7 @@ void FibonacciHeap<T>::cut_key(FibonacciHeap::Node& node, const T& key) {
     root_list.push_back(&node);
 
     if (old_parent != nullptr) {
-        old_parent->children.erase(std::remove(old_parent->children.begin(), old_parent->children.end(), &node));
+        old_parent->children.erase(std::remove(old_parent->children.begin(), old_parent->children.end(), &node), old_parent->children.end());
 
         if (!old_parent->marked) {
             old_parent->marked = true;
