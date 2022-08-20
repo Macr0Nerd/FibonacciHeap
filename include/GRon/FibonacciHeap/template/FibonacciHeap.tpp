@@ -4,12 +4,12 @@
 #include <cmath>
 
 // Node
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 size_t FibonacciHeap<T, Container>::Node::degree() const {
     return children.size();
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 size_t FibonacciHeap<T, Container>::Node::size() const {
     size_t ret = 1;
 
@@ -20,33 +20,33 @@ size_t FibonacciHeap<T, Container>::Node::size() const {
     return ret;
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 bool FibonacciHeap<T, Container>::Node::operator==(const FibonacciHeap::Node& obj) const {
     return key == obj.key;
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 bool FibonacciHeap<T, Container>::Node::operator==(const T& obj) const {
     return key == obj;
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 std::weak_ordering FibonacciHeap<T, Container>::Node::operator<=>(Node& obj) const {
     return key <=> obj.key;
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 std::weak_ordering FibonacciHeap<T, Container>::Node::operator<=>(T& obj) const {
     return key <=> obj;
 }
 
 // Binomial Heap
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 size_t FibonacciHeap<T, Container>::size() const {
     return _size;
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 void FibonacciHeap<T, Container>::insert(const T& key) {
     _clean = true;
     _size++;
@@ -62,7 +62,7 @@ void FibonacciHeap<T, Container>::insert(const T& key) {
     _removed.pop_back();
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_minimum() {
     if (_clean) {
         std::optional<size_t> max_degree = std::nullopt;
@@ -128,7 +128,7 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
     return _minimum;
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Container>::pop_minimum() {
     const Node* min = get_minimum();
 
@@ -152,7 +152,7 @@ std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Conta
     return ret;
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 void FibonacciHeap<T, Container>::cut_key(FibonacciHeap::Node* node, const T& key) {
     if (!node) return;
 
@@ -176,7 +176,7 @@ void FibonacciHeap<T, Container>::cut_key(FibonacciHeap::Node* node, const T& ke
     }
 }
 
-template<std::three_way_comparable T, template<typename, typename> typename Container>
+template<std::three_way_comparable T, template<typename, typename> class Container>
 void FibonacciHeap<T, Container>::alter_key(const T& key, const T& new_key) {
     auto old = std::find(_nodes.begin(), _nodes.end(), key);
     if (old == _nodes.end()) return;

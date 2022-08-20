@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <vector>
 
-template<std::three_way_comparable T, template<typename, typename> typename Container = std::vector>
+template<std::three_way_comparable T, template<typename, typename> class Container = std::vector>
 class FibonacciHeap {
 public:
     struct Node {
