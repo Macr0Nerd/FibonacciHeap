@@ -12,13 +12,13 @@
 #include <unordered_map>
 #include <vector>
 
-template<std::three_way_comparable T>
+template<std::three_way_comparable T, template<typename, typename> typename Container = std::vector>
 class FibonacciHeap {
 public:
     struct Node {
         std::optional<T> key{std::nullopt};
         bool marked{false};
-        std::vector<Node*> children{};
+        Container<Node*, std::allocator<Node*>> children{};
         Node* parent{nullptr};
 
         Node() = default;
@@ -39,7 +39,7 @@ public:
         std::weak_ordering operator<=>(T& obj) const;
     };
 
-    std::vector<Node*> root_list;
+    Container<Node*, std::allocator<Node*>> root_list;
 
     FibonacciHeap() = default;
     explicit FibonacciHeap(size_t reserve) : _size(0), _clean(false), _minimum(nullptr), _nodes(reserve), _removed(),root_list() {};
@@ -59,11 +59,11 @@ public:
     void alter_key(const T& key, const T& new_key);
 
 protected:
-    size_t _size;
-    bool _clean;
-    Node* _minimum;
-    std::vector<Node> _nodes;
-    std::vector<typename std::vector<Node>::iterator> _removed;
+    size_t _size{0};
+    bool _clean{false};
+    Node* _minimum{nullptr};
+    Container<Node, std::allocator<Node>> _nodes;
+    Container<typename std::vector<Node>::iterator, std::allocator<typename std::vector<Node>::iterator>> _removed;
 
     void cut_key(Node* node, const T& key);
 };

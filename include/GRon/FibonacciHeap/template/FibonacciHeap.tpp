@@ -4,13 +4,13 @@
 #include <cmath>
 
 // Node
-template<std::three_way_comparable T>
-size_t FibonacciHeap<T>::Node::degree() const {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+size_t FibonacciHeap<T, Container>::Node::degree() const {
     return children.size();
 }
 
-template<std::three_way_comparable T>
-size_t FibonacciHeap<T>::Node::size() const {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+size_t FibonacciHeap<T, Container>::Node::size() const {
     size_t ret = 1;
 
     for (auto& i : children) {
@@ -20,34 +20,34 @@ size_t FibonacciHeap<T>::Node::size() const {
     return ret;
 }
 
-template<std::three_way_comparable T>
-bool FibonacciHeap<T>::Node::operator==(const FibonacciHeap::Node& obj) const {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+bool FibonacciHeap<T, Container>::Node::operator==(const FibonacciHeap::Node& obj) const {
     return key == obj.key;
 }
 
-template<std::three_way_comparable T>
-bool FibonacciHeap<T>::Node::operator==(const T& obj) const {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+bool FibonacciHeap<T, Container>::Node::operator==(const T& obj) const {
     return key == obj;
 }
 
-template<std::three_way_comparable T>
-std::weak_ordering FibonacciHeap<T>::Node::operator<=>(Node& obj) const {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+std::weak_ordering FibonacciHeap<T, Container>::Node::operator<=>(Node& obj) const {
     return key <=> obj.key;
 }
 
-template<std::three_way_comparable T>
-std::weak_ordering FibonacciHeap<T>::Node::operator<=>(T& obj) const {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+std::weak_ordering FibonacciHeap<T, Container>::Node::operator<=>(T& obj) const {
     return key <=> obj;
 }
 
 // Binomial Heap
-template<std::three_way_comparable T>
-size_t FibonacciHeap<T>::size() const {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+size_t FibonacciHeap<T, Container>::size() const {
     return _size;
 }
 
-template<std::three_way_comparable T>
-void FibonacciHeap<T>::insert(const T& key) {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+void FibonacciHeap<T, Container>::insert(const T& key) {
     _clean = true;
     _size++;
 
@@ -62,8 +62,8 @@ void FibonacciHeap<T>::insert(const T& key) {
     _removed.pop_back();
 }
 
-template<std::three_way_comparable T>
-typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_minimum() {
     if (_clean) {
         std::optional<size_t> max_degree = std::nullopt;
 
@@ -128,8 +128,8 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
     return _minimum;
 }
 
-template<std::three_way_comparable T>
-std::optional<typename FibonacciHeap<T>::Node> FibonacciHeap<T>::pop_minimum() {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Container>::pop_minimum() {
     const Node* min = get_minimum();
 
     if (min == nullptr) return std::nullopt;
@@ -152,8 +152,8 @@ std::optional<typename FibonacciHeap<T>::Node> FibonacciHeap<T>::pop_minimum() {
     return ret;
 }
 
-template<std::three_way_comparable T>
-void FibonacciHeap<T>::cut_key(FibonacciHeap::Node* node, const T& key) {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+void FibonacciHeap<T, Container>::cut_key(FibonacciHeap::Node* node, const T& key) {
     if (!node) return;
 
     _clean = true;
@@ -176,8 +176,8 @@ void FibonacciHeap<T>::cut_key(FibonacciHeap::Node* node, const T& key) {
     }
 }
 
-template<std::three_way_comparable T>
-void FibonacciHeap<T>::alter_key(const T& key, const T& new_key) {
+template<std::three_way_comparable T, template<typename, typename> typename Container>
+void FibonacciHeap<T, Container>::alter_key(const T& key, const T& new_key) {
     auto old = std::find(_nodes.begin(), _nodes.end(), key);
     if (old == _nodes.end()) return;
 
