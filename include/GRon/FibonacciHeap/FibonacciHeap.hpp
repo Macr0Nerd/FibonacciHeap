@@ -63,7 +63,7 @@ protected:
     bool _clean;
     Node* _minimum;
     std::vector<Node> _nodes;
-    std::queue<typename std::vector<Node>::iterator> _removed;
+    std::vector<typename std::vector<Node>::iterator> _removed;
 
     void cut_key(Node* node, const T& key);
 };

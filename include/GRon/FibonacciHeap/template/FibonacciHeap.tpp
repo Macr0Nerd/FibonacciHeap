@@ -56,10 +56,10 @@ void FibonacciHeap<T>::insert(const T& key) {
         return;
     }
 
-    auto it = _removed.front();
+    auto it = _removed.back();
     *it = Node(key);
     root_list.push_back(&(*it));
-    _removed.pop();
+    _removed.pop_back();
 }
 
 template<std::three_way_comparable T>
@@ -142,7 +142,7 @@ std::optional<typename FibonacciHeap<T>::Node> FibonacciHeap<T>::pop_minimum() {
     root_list.erase(std::remove(root_list.begin(), root_list.end(), min), root_list.end());
 
     // ToDo: Optimize return
-    _removed.push(std::find(_nodes.begin(), _nodes.end(), *min));
+    _removed.push_back(std::find(_nodes.begin(), _nodes.end(), *min));
     Node ret{std::move(*min)};
 
     _minimum = nullptr;
