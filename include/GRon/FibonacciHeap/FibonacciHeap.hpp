@@ -45,8 +45,9 @@ public:
 
     std::vector<Node*> root_list;
 
-    FibonacciHeap() = default;
+    explicit FibonacciHeap(size_t n) : location(n) {};
 
+    FibonacciHeap() = default;
     FibonacciHeap(const FibonacciHeap&) = default;
     FibonacciHeap(FibonacciHeap&&) noexcept = default;
     FibonacciHeap& operator=(const FibonacciHeap&) = default;
