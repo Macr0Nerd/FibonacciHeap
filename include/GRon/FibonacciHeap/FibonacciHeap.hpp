@@ -5,23 +5,24 @@
 
 #include <compare>
 #include <concepts>
-#include <unordered_map>
 #include <memory>
 #include <optional>
 #include <ostream>
+#include <queue>
+#include <unordered_map>
 #include <vector>
 
 template<std::three_way_comparable T>
 class FibonacciHeap {
 public:
     struct Node {
-        T key;
-        bool marked{};
+        std::optional<T> key{std::nullopt};
+        bool marked{false};
         std::vector<Node*> children{};
         Node* parent{nullptr};
 
+        Node() = default;
         explicit Node(T value) : key(value) {};
-
         Node(const Node&) = default;
         Node(Node&&) noexcept = default;
         Node& operator=(const Node&) = default;
@@ -32,22 +33,16 @@ public:
         [[nodiscard]] size_t size() const;
 
         bool operator==(const Node& obj) const;
+        bool operator==(const T& obj) const;
 
         std::weak_ordering operator<=>(Node& obj) const;
-
-        friend std::ostream& operator<<(std::ostream& os, const Node& obj) {
-            return obj.streamInsertion(os);
-        }
-
-    private:
-        std::ostream& streamInsertion(std::ostream& os) const;
+        std::weak_ordering operator<=>(T& obj) const;
     };
 
     std::vector<Node*> root_list;
 
-    explicit FibonacciHeap(size_t n) : location(n) {};
-
     FibonacciHeap() = default;
+    explicit FibonacciHeap(size_t reserve) : _size(0), _clean(false), _minimum(nullptr), _nodes(reserve), _removed(),root_list() {};
     FibonacciHeap(const FibonacciHeap&) = default;
     FibonacciHeap(FibonacciHeap&&) noexcept = default;
     FibonacciHeap& operator=(const FibonacciHeap&) = default;
@@ -63,14 +58,14 @@ public:
 
     void alter_key(const T& key, const T& new_key);
 
-    template<class Y> friend std::ostream& operator<<(std::ostream& os, const FibonacciHeap<Y>& obj);
-
 protected:
-    bool clean_flag{false};
-    Node* minimum{nullptr};
-    std::unordered_map<T, Node> location;
+    size_t _size;
+    bool _clean;
+    Node* _minimum;
+    std::vector<Node> _nodes;
+    std::vector<typename std::vector<Node>::iterator> _removed;
 
-    void cut_key(Node& node, const T& key);
+    void cut_key(Node* node, const T& key);
 };
 
 #include "GRon/FibonacciHeap/template/FibonacciHeap.tpp"

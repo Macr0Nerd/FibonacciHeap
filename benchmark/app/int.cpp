@@ -112,10 +112,6 @@ BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queu
 /**
  * GRon::priority_queue_mfh, n=1000
  */
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000, ratio=4)", run_inf.Param(1000)) {
-    run(heap, 1000, 4);
-    context.Cancel();
-}
 
 BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000, ratio=8)", run_inf.Param(1000)) {
     run(heap, 1000, 8);
@@ -142,13 +138,14 @@ BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::pr
     context.Cancel();
 }
 
+BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000, ratio=256)", run_inf.Param(1000)) {
+    run(heap, 1000, 256);
+    context.Cancel();
+}
+
 /**
  * std::priority_queue, n=1000
  */
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000, ratio=4)", run_inf) {
-   run(heap, 1000, 4);
-   context.Cancel();
-}
 
 BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000, ratio=8)", run_inf) {
    run(heap, 1000, 8);
@@ -175,23 +172,14 @@ BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queu
    context.Cancel();
 }
 
+BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000, ratio=256)", run_inf) {
+    run(heap, 1000, 256);
+    context.Cancel();
+}
+
 /**
  * GRon::priority_queue_mfh, n=10000
  */
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=10000, ratio=4)", run_inf.Param(10000)) {
-    run(heap, 10000, 4);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=10000, ratio=8)", run_inf.Param(10000)) {
-    run(heap, 10000, 8);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=10000, ratio=16)", run_inf.Param(10000)) {
-    run(heap, 10000, 16);
-    context.Cancel();
-}
 
 BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=10000, ratio=32)", run_inf.Param(10000)) {
     run(heap, 10000, 32);
@@ -218,23 +206,14 @@ BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::pr
     context.Cancel();
 }
 
+BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=10000, ratio=1024)", run_inf.Param(10000)) {
+    run(heap, 10000, 1024);
+    context.Cancel();
+}
+
 /**
  * std::priority_queue, n=10000
  */
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=10000, ratio=4)", run_inf) {
-   run(heap, 10000, 4);
-   context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=10000, ratio=8)", run_inf) {
-   run(heap, 10000, 8);
-   context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=10000, ratio=16)", run_inf) {
-   run(heap, 10000, 16);
-   context.Cancel();
-}
 
 BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=10000, ratio=32)", run_inf) {
    run(heap, 10000, 32);
@@ -261,34 +240,15 @@ BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queu
    context.Cancel();
 }
 
+BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=10000, ratio=1024)", run_inf) {
+    run(heap, 10000, 1024);
+    context.Cancel();
+}
+
+
 /**
 * GRon::priority_queue_mfh, n=100000
 */
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=100000, ratio=4)", run_inf.Param(100000)) {
-    run(heap, 100000, 4);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=100000, ratio=8)", run_inf.Param(100000)) {
-    run(heap, 100000, 8);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=100000, ratio=16)", run_inf.Param(100000)) {
-    run(heap, 100000, 16);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=100000, ratio=32)", run_inf.Param(100000)) {
-    run(heap, 100000, 32);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=100000, ratio=64)", run_inf.Param(100000)) {
-    run(heap, 100000, 64);
-    context.Cancel();
-}
 
 BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=100000, ratio=128)", run_inf.Param(100000)) {
     run(heap, 100000, 128);
@@ -314,34 +274,15 @@ BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::pr
     run(heap, 100000, 2048);
     context.Cancel();
 }
+BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=100000, ratio=4096)", run_inf.Param(100000)) {
+    run(heap, 100000, 4096);
+    context.Cancel();
+}
+
 
 /**
  * std::priority_queue, n=100000
  */
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=100000, ratio=4)", run_inf) {
-    run(heap, 100000, 4);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=100000, ratio=8)", run_inf) {
-    run(heap, 100000, 8);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=100000, ratio=16)", run_inf) {
-    run(heap, 100000, 16);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=100000, ratio=32)", run_inf) {
-    run(heap, 100000, 32);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=100000, ratio=64)", run_inf) {
-    run(heap, 100000, 64);
-    context.Cancel();
-}
 
 BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=100000, ratio=128)", run_inf) {
     run(heap, 100000, 128);
@@ -368,44 +309,14 @@ BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queu
     context.Cancel();
 }
 
+BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=100000, ratio=4096)", run_inf) {
+    run(heap, 100000, 4096);
+    context.Cancel();
+}
+
 /**
 * GRon::priority_queue_mfh, n=1000000
 */
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=4)", run_inf.Param(1000000)) {
-    run(heap, 1000000, 4);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=8)", run_inf.Param(1000000)) {
-    run(heap, 1000000, 8);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=16)", run_inf.Param(1000000)) {
-    run(heap, 1000000, 16);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=32)", run_inf.Param(1000000)) {
-    run(heap, 1000000, 32);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=64)", run_inf.Param(1000000)) {
-    run(heap, 1000000, 64);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=128)", run_inf.Param(1000000)) {
-    run(heap, 1000000, 128);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=256)", run_inf.Param(1000000)) {
-    run(heap, 1000000, 256);
-    context.Cancel();
-}
 
 BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=512)", run_inf.Param(1000000)) {
     run(heap, 1000000, 512);
@@ -422,43 +333,24 @@ BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::pr
     context.Cancel();
 }
 
+BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=4096)", run_inf.Param(1000000)) {
+    run(heap, 1000000, 4096);
+    context.Cancel();
+}
+
+BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=8192)", run_inf.Param(1000000)) {
+    run(heap, 1000000, 8192);
+    context.Cancel();
+}
+
+BENCHMARK_FIXTURE(HeapParamFixture<GRon::priority_queue_mfh<int>>, "run(GRon::priority_queue_mfh, n=1000000, ratio=16384)", run_inf.Param(1000000)) {
+    run(heap, 1000000, 16384);
+    context.Cancel();
+}
+
 /**
  * std::priority_queue, n=1000000
  */
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=4)", run_inf) {
-    run(heap, 1000000, 4);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=8)", run_inf) {
-    run(heap, 1000000, 8);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=16)", run_inf) {
-    run(heap, 1000000, 16);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=32)", run_inf) {
-    run(heap, 1000000, 32);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=64)", run_inf) {
-    run(heap, 1000000, 64);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=128)", run_inf) {
-    run(heap, 1000000, 128);
-    context.Cancel();
-}
-
-BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=256)", run_inf) {
-    run(heap, 1000000, 256);
-    context.Cancel();
-}
 
 BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=512)", run_inf) {
     run(heap, 1000000, 512);
@@ -474,5 +366,21 @@ BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queu
     run(heap, 1000000, 2048);
     context.Cancel();
 }
+
+BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=4096)", run_inf) {
+    run(heap, 1000000, 4096);
+    context.Cancel();
+}
+
+BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=8192)", run_inf) {
+    run(heap, 1000000, 8192);
+    context.Cancel();
+}
+
+BENCHMARK_FIXTURE(HeapFixture<std::priority_queue<int>>, "run(std::priority_queue, n=1000000, ratio=16384)", run_inf) {
+    run(heap, 1000000, 16384);
+    context.Cancel();
+}
+
 
 BENCHMARK_MAIN()

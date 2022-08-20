@@ -26,38 +26,45 @@ bool FibonacciHeap<T>::Node::operator==(const FibonacciHeap::Node& obj) const {
 }
 
 template<std::three_way_comparable T>
+bool FibonacciHeap<T>::Node::operator==(const T& obj) const {
+    return key == obj;
+}
+
+template<std::three_way_comparable T>
 std::weak_ordering FibonacciHeap<T>::Node::operator<=>(Node& obj) const {
     return key <=> obj.key;
 }
 
 template<std::three_way_comparable T>
-std::ostream& FibonacciHeap<T>::Node::streamInsertion(std::ostream &os) const {
-    os << key << '[';
-    for (auto& i : children) {
-        os << *i;
-    }
-
-    os << ']';
-
-    return os;
+std::weak_ordering FibonacciHeap<T>::Node::operator<=>(T& obj) const {
+    return key <=> obj;
 }
 
 // Binomial Heap
 template<std::three_way_comparable T>
 size_t FibonacciHeap<T>::size() const {
-    return location.size();
+    return _size;
 }
 
 template<std::three_way_comparable T>
 void FibonacciHeap<T>::insert(const T& key) {
-    clean_flag = true;
-    location.emplace(key, key);
-    root_list.push_back(&location.at(key));
+    _clean = true;
+    _size++;
+
+    if (_removed.empty()) {
+        root_list.push_back(&_nodes.emplace_back(key));
+        return;
+    }
+
+    auto it = _removed.back();
+    *it = Node(key);
+    root_list.push_back(&(*it));
+    _removed.pop_back();
 }
 
 template<std::three_way_comparable T>
 typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
-    if (clean_flag) {
+    if (_clean) {
         std::optional<size_t> max_degree = std::nullopt;
 
         max_degree = ceil(std::log2f((double) size()) * 1.618);
@@ -101,11 +108,6 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
             degree_list[degree] = node;
         }
 
-        /* Not faster
-        root_list.swap(degree_list);
-        std::erase_if(root_list, [](const Node* t){ return t == nullptr; });
-        */
-
         root_list.clear();
         for (auto i : degree_list) {
             if (i != nullptr) {
@@ -114,76 +116,70 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
         }
 
         for (auto& i : root_list) {
-            if (!minimum || i->key <= minimum->key) {
-                minimum = i;
+            if (!_minimum || i->key <= _minimum->key) {
+                _minimum = i;
                 continue;
             }
         }
 
-        clean_flag = false;
+        _clean = false;
     }
 
-    return minimum;
+    return _minimum;
 }
 
 template<std::three_way_comparable T>
 std::optional<typename FibonacciHeap<T>::Node> FibonacciHeap<T>::pop_minimum() {
-    const Node* pop_min = get_minimum();
+    const Node* min = get_minimum();
 
-    if (pop_min == nullptr) return std::nullopt;
+    if (min == nullptr) return std::nullopt;
 
-    Node ret{*pop_min};
+    for (Node* node : min->children) {
+        node->parent = nullptr;
+    }
 
-    root_list.insert(root_list.end(), pop_min->children.begin(), pop_min->children.end());
-    root_list.erase(std::remove(root_list.begin(), root_list.end(), pop_min), root_list.end());
-    location.erase(pop_min->key);
+    root_list.insert(root_list.end(), min->children.begin(), min->children.end());
+    root_list.erase(std::remove(root_list.begin(), root_list.end(), min), root_list.end());
 
-    minimum = nullptr;
-    clean_flag = true;
+    // ToDo: Optimize return
+    _removed.push_back(std::find(_nodes.begin(), _nodes.end(), *min));
+    Node ret{std::move(*min)};
+
+    _minimum = nullptr;
+    _clean = true;
+    _size--;
 
     return ret;
 }
 
 template<std::three_way_comparable T>
-void FibonacciHeap<T>::cut_key(FibonacciHeap::Node& node, const T& key) {
-    if (!location.contains(key)) return;
+void FibonacciHeap<T>::cut_key(FibonacciHeap::Node* node, const T& key) {
+    if (!node) return;
 
-    clean_flag = true;
+    _clean = true;
 
-    node.key = key;
-    node.marked = false;
-    Node* old_parent = node.parent;
-    node.parent = nullptr;
+    node->key = key;
+    node->marked = false;
+    Node* old_parent = node->parent;
+    node->parent = nullptr;
 
-    root_list.push_back(&node);
+    root_list.push_back(node);
 
     if (old_parent) {
-        old_parent->children.erase(std::remove(old_parent->children.begin(), old_parent->children.end(), &node), old_parent->children.end());
+        old_parent->children.erase(std::remove(old_parent->children.begin(), old_parent->children.end(), node));
 
         if (!old_parent->marked) {
             old_parent->marked = true;
         } else {
-            cut_key(*old_parent, old_parent->key);
+            cut_key(old_parent, old_parent->key.value());
         }
     }
 }
 
 template<std::three_way_comparable T>
 void FibonacciHeap<T>::alter_key(const T& key, const T& new_key) {
-    if (!location.contains(key) && location.contains(new_key)) return;
+    auto old = std::find(_nodes.begin(), _nodes.end(), key);
+    if (old == _nodes.end()) return;
 
-    auto old = location.extract(key);
-    old.key() = new_key;
-    location.insert(std::move(old));
-
-    cut_key(location.at(new_key), new_key);
-}
-
-template<class Y>
-std::ostream& operator<<(std::ostream& os, const FibonacciHeap<Y>& obj) {
-    for (auto& i : obj.root_list){
-        os << *i << std::endl;
-    }
-
-    return os;
+    cut_key(&(*old), new_key);
 }
