@@ -69,33 +69,42 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
             return nullptr;
         }
 
+        Node* current{nullptr};
+        Node* node{nullptr};
         for (size_t i = 0; i < root_list.size(); i++) {
-            size_t degree = root_list.at(i)->degree();
-            if (degree_list.at(degree) == nullptr) {
-                degree_list.at(degree) = root_list.at(i);
+            size_t degree = root_list[i]->degree();
+            current = degree_list[degree];
+            if (current == nullptr) {
+                degree_list[degree] = root_list[i];
                 continue;
             }
 
-            Node* node = root_list.at(i);
-            while (degree_list.at(degree) != nullptr) {
-                if (node->key < degree_list.at(degree)->key) {
-                    degree_list.at(degree)->parent = node;
-                    node->children.push_back(degree_list.at(degree));
+            node = root_list[i];
+            while (current) {
+                if (node->key < current->key) {
+                    current->parent = node;
+                    node->children.push_back(current);
                 } else {
-                    node->parent = degree_list.at(degree);
-                    degree_list.at(degree)->children.push_back(node);
-                    node = degree_list.at(degree);
+                    node->parent = current;
+                    current->children.push_back(node);
+                    node = current;
                 }
 
-                degree_list.at(degree) = nullptr;
+                degree_list[degree] = nullptr;
 
                 if (degree + 1 >= degree_list.size()) break;
 
                 degree = node->degree();
+                current = degree_list[degree];
             }
 
-            degree_list.at(degree) = node;
+            degree_list[degree] = node;
         }
+
+        /* Not faster
+        root_list.swap(degree_list);
+        std::erase_if(root_list, [](const Node* t){ return t == nullptr; });
+        */
 
         root_list.clear();
         for (auto i : degree_list) {
@@ -105,7 +114,7 @@ typename FibonacciHeap<T>::Node* FibonacciHeap<T>::get_minimum() {
         }
 
         for (auto& i : root_list) {
-            if (minimum == nullptr || i->key <= minimum->key) {
+            if (!minimum || i->key <= minimum->key) {
                 minimum = i;
                 continue;
             }
@@ -148,7 +157,7 @@ void FibonacciHeap<T>::cut_key(FibonacciHeap::Node& node, const T& key) {
 
     root_list.push_back(&node);
 
-    if (old_parent != nullptr) {
+    if (old_parent) {
         old_parent->children.erase(std::remove(old_parent->children.begin(), old_parent->children.end(), &node), old_parent->children.end());
 
         if (!old_parent->marked) {

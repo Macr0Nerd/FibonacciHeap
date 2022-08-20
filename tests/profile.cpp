@@ -21,7 +21,7 @@ int main() {
         }
 
         if (!(i % ratio) ^ invert) {
-            test.pop_minimum();
+            test.get_minimum();
             pop_cnt++;
             continue;
         }

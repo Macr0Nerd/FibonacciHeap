@@ -40,7 +40,7 @@ protected:
 template<class T>
 void run(T& heap, size_t n, int ratio, bool invert = false) {
     for (int i = 0; i < n; ++i) {
-        if (!(rand() % ratio) ^ invert) {
+        if (!(i % ratio) ^ invert) {
             heap.top();
             continue;
         }
