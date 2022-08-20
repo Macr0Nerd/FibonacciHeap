@@ -54,7 +54,7 @@ The API for the Fibonacci Heap is quite simple:
       However, once the heap is ordered, this runs in constant time as well.
 
   * `Node pop_minimum()`
-    * Pops off the minimum node and returns the entire node
+    * Pops off the _minimum node and returns the entire node
     * Makes a call to `get_minimum`, so the same distinctions apply
 
   * `void alter_key(T key, T new_key)`
