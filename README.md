@@ -58,7 +58,7 @@ The API for the Fibonacci Heap is quite simple:
     * Makes a call to `get_minimum`, so the same distinctions apply
 
   * `void alter_key(T key, T new_key)`
-    * Updates the node containing `key` to now hold `new_key`]
+    * Updates the node containing `key` to now hold `new_key`
     * Can be combined with `pop_minimum` to remove keys from the heap
 
 ## Building
