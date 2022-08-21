@@ -42,7 +42,7 @@ The API for the Fibonacci Heap is quite simple:
       * Key held by the node
     * `Node* parent`
       * The parent node
-    * `std::vector<Node*> children`
+    * `Container<Node*> children`
       * The child nodes
   * `void insert(T key)`
     * Emplaces a key at the back of the `root_list` vector
