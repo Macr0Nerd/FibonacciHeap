@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <vector>
 
 /// Node
 template<std::three_way_comparable T, template<typename...> class Container>
@@ -111,13 +112,10 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
         for (auto& i : degree_list) {
             if (i) {
                 root_list.push_back(i);
-            }
-        }
 
-        for (auto& i : root_list) {
-            if (!_minimum || i->key <= _minimum->key) {
-                _minimum = i;
-                continue;
+                if (!_minimum || i->key <= _minimum->key) {
+                    _minimum = i;
+                }
             }
         }
 
