@@ -80,7 +80,7 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
 
             size_t degree = root->degree();
             current = degree_list[degree];
-            if (current == nullptr) {
+            if (!current) {
                 degree_list[degree] = root;
                 continue;
             }
@@ -131,7 +131,7 @@ template<std::three_way_comparable T, template<typename...> class Container>
 std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Container>::pop_minimum() {
     const Node* min = get_minimum();
 
-    if (min == nullptr) return std::nullopt;
+    if (!min) return std::nullopt;
 
     for (Node* node : min->children) {
         node->parent = nullptr;

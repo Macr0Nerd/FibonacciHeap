@@ -9,9 +9,6 @@
 #include <memory>
 #include <optional>
 #include <ostream>
-#include <queue>
-#include <unordered_map>
-#include <vector>
 
 template<std::three_way_comparable T, template<typename...> class Container = std::list>
 class FibonacciHeap {

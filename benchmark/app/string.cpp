@@ -5,8 +5,8 @@
 #include <queue>
 #include <string>
 
-#define run_inf CppBenchmark::Settings().Infinite().Attempts(50)
-#define N 1000000
+#define run_inf CppBenchmark::Settings().Infinite().Attempts(500)
+#define N 10000000
 #define RATIO 65536
 
 namespace GRon {
