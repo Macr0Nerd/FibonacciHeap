@@ -68,11 +68,11 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
     if (_clean) {
         std::optional<size_t> max_degree = std::nullopt;
 
-        max_degree = ceil(std::log2f((double) size()) * 1.618);
+        max_degree = std::log2f((double) size()) * 1.618;
 
         if (!max_degree.has_value()) return nullptr;
 
-        std::vector<Node*> degree_list(max_degree.value(), nullptr);
+        Container<Node*> degree_list(max_degree.value(), nullptr);
 
         Node* current{nullptr};
         Node* node{nullptr};
@@ -80,9 +80,9 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
             if (!root->key.has_value()) return nullptr;
 
             size_t degree = root->degree();
-            current = degree_list[degree];
+            current = *std::next(degree_list.begin(), degree);
             if (!current) {
-                degree_list[degree] = root;
+                *std::next(degree_list.begin(), degree) = root;
                 continue;
             }
 
@@ -97,15 +97,15 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
                     node = current;
                 }
 
-                degree_list[degree] = nullptr;
+                *std::next(degree_list.begin(), degree) = nullptr;
 
                 if (degree + 1 >= degree_list.size()) break;
 
                 degree = node->degree();
-                current = degree_list[degree];
+                current = *std::next(degree_list.begin(), degree);
             }
 
-            degree_list[degree] = node;
+            *std::next(degree_list.begin(), degree) = node;
         }
 
         root_list.clear();

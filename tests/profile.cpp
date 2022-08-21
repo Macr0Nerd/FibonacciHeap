@@ -4,7 +4,7 @@
 
 int main() {
     int n = 10000000;
-    int ratio = 128;
+    int ratio = 4096;
     bool invert = false;
 
     int one = n/100;
@@ -20,7 +20,7 @@ int main() {
             std::cout << '\r' << (i/(double) n) * 100 << "% Complete" << std::flush;
         }
 
-        if (!(i % ratio) ^ invert) {
+        if (!(i % ratio)) {
             test.get_minimum();
             pop_cnt++;
             continue;
@@ -33,7 +33,7 @@ int main() {
     std::cout << std::endl;
     std::cout << "Results" << std::endl;
     std::cout << "==============" << std::endl;
-    std::cout << "Pop: " << pop_cnt << " ops" << std::endl;
+    std::cout << "Get: " << pop_cnt << " ops" << std::endl;
     std::cout << "Insert: " << insert_cnt << " ops" << std::endl;
 
     return 0;
