@@ -45,7 +45,7 @@ The API for the Fibonacci Heap is quite simple:
     * `Container<Node*> children`
       * The child nodes
   * `void insert(T key)`
-    * Emplaces a key at the back of the `root_list` vector
+    * Emplaces a key at the back of the `root_list` container
 
   * `Node* get_minimum()`
     * Returns a pointer to the node with the lowest key
