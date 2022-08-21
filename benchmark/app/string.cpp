@@ -7,7 +7,7 @@
 
 #define run_inf CppBenchmark::Settings().Infinite().Attempts(50)
 #define N 1000000
-#define RATIO 65536
+#define RATIO 16384
 
 namespace GRon {
     template<typename T>
