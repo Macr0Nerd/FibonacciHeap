@@ -86,13 +86,14 @@ TEST_CASE("heap basic functions", "[heap]") {
         test.insert(8);
 
         min = test.get_minimum();
+        auto a = test.root_list;
 
         auto iter = test.root_list.begin();
 
         REQUIRE(test.size() == 8);
         REQUIRE(min->key.value() == -15);
         REQUIRE((*iter)->key.value() == 8);
-        iter = std::next(iter);
+        iter = std::next(iter, 3);
         REQUIRE((*iter)->key.value() == -15);
 
         iter = std::next((*iter)->children.begin());

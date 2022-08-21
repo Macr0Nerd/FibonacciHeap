@@ -66,6 +66,8 @@ void FibonacciHeap<T, Container>::insert(const T& key) {
 template<std::three_way_comparable T, template<typename...> class Container>
 typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_minimum() {
     if (_clean) {
+
+
         std::optional<size_t> max_degree = std::nullopt;
 
         max_degree = std::log2f((double) size()) * 1.618;
@@ -77,7 +79,7 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
         Node* current{nullptr};
         Node* node{nullptr};
         for (Node* root : root_list) {
-            if (!root->key.has_value()) return nullptr;
+            if (!root) continue;
 
             size_t degree = root->degree();
             current = *std::next(degree_list.begin(), degree);
@@ -108,14 +110,10 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
             *std::next(degree_list.begin(), degree) = node;
         }
 
-        root_list.clear();
-        for (auto& i : degree_list) {
-            if (i) {
-                root_list.push_back(i);
-
-                if (!_minimum || i->key <= _minimum->key) {
-                    _minimum = i;
-                }
+        root_list.swap(degree_list);
+        for (auto& i : root_list) {
+            if (i && (!_minimum || i->key <= _minimum->key)) {
+                _minimum = i;
             }
         }
 
@@ -138,7 +136,6 @@ std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Conta
     root_list.insert(root_list.end(), min->children.begin(), min->children.end());
     std::erase(root_list, min);
 
-    // ToDo: Optimize return
     _removed.push_back(&(*std::find(_nodes.begin(), _nodes.end(), *min)));
     Node ret{std::move(*min)};
 
