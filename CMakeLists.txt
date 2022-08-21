@@ -59,18 +59,24 @@ target_include_directories(${PROJECT_NAME}
 # Set optimization flags #
 ##########################
 
+set(SANITIZE "OFF" CACHE STRING "Set the sanitizer to pass (the value provided will be passed directly to -fsanitize)")
 if (NOT CMAKE_CXX_FLAGS)
+    if (NOT ${SANITIZE} STREQUAL "OFF")
+        target_compile_options(${PROJECT_NAME} INTERFACE -fsanitize=${SANITIZE})
+        target_compile_options(${PROJECT_NAME} INTERFACE -g)
+    endif ()
+
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         if (MSVC)
-            list(APPEND CMAKE_CXX_FLAGS "/O0")
+            target_compile_options(${PROJECT_NAME} INTERFACE /O0)
         else ()
-            list(APPEND CMAKE_CXX_FLAGS "-O0")
+            target_compile_options(${PROJECT_NAME} INTERFACE -O0)
         endif ()
     else ()
         if (MSVC)
-            list(APPEND CMAKE_CXX_FLAGS "/O3")
+            target_compile_options(${PROJECT_NAME} INTERFACE /O3)
         else ()
-            list(APPEND CMAKE_CXX_FLAGS "-O3")
+            target_compile_options(${PROJECT_NAME} INTERFACE -O3)
         endif ()
     endif ()
     message("Setting CXX flags to default for ${CMAKE_BUILD_TYPE} mode (${CMAKE_CXX_FLAGS})")
