@@ -1,15 +1,16 @@
 #include "GRon/FibonacciHeap/FibonacciHeap.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 
-// Node
-template<std::three_way_comparable T, template<typename, typename> class Container>
+/// Node
+template<std::three_way_comparable T, template<typename...> class Container>
 size_t FibonacciHeap<T, Container>::Node::degree() const {
     return children.size();
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 size_t FibonacciHeap<T, Container>::Node::size() const {
     size_t ret = 1;
 
@@ -20,33 +21,33 @@ size_t FibonacciHeap<T, Container>::Node::size() const {
     return ret;
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 bool FibonacciHeap<T, Container>::Node::operator==(const FibonacciHeap::Node& obj) const {
     return key == obj.key;
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 bool FibonacciHeap<T, Container>::Node::operator==(const T& obj) const {
     return key == obj;
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 std::weak_ordering FibonacciHeap<T, Container>::Node::operator<=>(Node& obj) const {
     return key <=> obj.key;
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 std::weak_ordering FibonacciHeap<T, Container>::Node::operator<=>(T& obj) const {
     return key <=> obj;
 }
 
-// Binomial Heap
-template<std::three_way_comparable T, template<typename, typename> class Container>
+/// Fibonacci Heap
+template<std::three_way_comparable T, template<typename...> class Container>
 size_t FibonacciHeap<T, Container>::size() const {
     return _size;
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 void FibonacciHeap<T, Container>::insert(const T& key) {
     _clean = true;
     _size++;
@@ -56,37 +57,35 @@ void FibonacciHeap<T, Container>::insert(const T& key) {
         return;
     }
 
-    auto it = _removed.back();
-    *it = Node(key);
-    root_list.push_back(&(*it));
+    *_removed.back() = Node(key);
+    root_list.push_back(_removed.back());
     _removed.pop_back();
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_minimum() {
     if (_clean) {
         std::optional<size_t> max_degree = std::nullopt;
 
         max_degree = ceil(std::log2f((double) size()) * 1.618);
 
-        std::vector<Node*> degree_list;
-        if (max_degree.has_value()) {
-            degree_list.assign(max_degree.value() + 1, nullptr);
-        } else {
-            return nullptr;
-        }
+        if (!max_degree.has_value()) return nullptr;
+
+        std::vector<Node*> degree_list(max_degree.value(), nullptr);
 
         Node* current{nullptr};
         Node* node{nullptr};
-        for (size_t i = 0; i < root_list.size(); i++) {
-            size_t degree = root_list[i]->degree();
+        for (Node* root : root_list) {
+            if (!root->key.has_value()) return nullptr;
+
+            size_t degree = root->degree();
             current = degree_list[degree];
             if (current == nullptr) {
-                degree_list[degree] = root_list[i];
+                degree_list[degree] = root;
                 continue;
             }
 
-            node = root_list[i];
+            node = root;
             while (current) {
                 if (node->key < current->key) {
                     current->parent = node;
@@ -109,8 +108,8 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
         }
 
         root_list.clear();
-        for (auto i : degree_list) {
-            if (i != nullptr) {
+        for (auto& i : degree_list) {
+            if (i) {
                 root_list.push_back(i);
             }
         }
@@ -128,7 +127,7 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
     return _minimum;
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Container>::pop_minimum() {
     const Node* min = get_minimum();
 
@@ -139,10 +138,10 @@ std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Conta
     }
 
     root_list.insert(root_list.end(), min->children.begin(), min->children.end());
-    root_list.erase(std::remove(root_list.begin(), root_list.end(), min), root_list.end());
+    std::erase(root_list, min);
 
     // ToDo: Optimize return
-    _removed.push_back(std::find(_nodes.begin(), _nodes.end(), *min));
+    _removed.push_back(&(*std::find(_nodes.begin(), _nodes.end(), *min)));
     Node ret{std::move(*min)};
 
     _minimum = nullptr;
@@ -152,7 +151,7 @@ std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Conta
     return ret;
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 void FibonacciHeap<T, Container>::cut_key(FibonacciHeap::Node* node, const T& key) {
     if (!node) return;
 
@@ -176,7 +175,7 @@ void FibonacciHeap<T, Container>::cut_key(FibonacciHeap::Node* node, const T& ke
     }
 }
 
-template<std::three_way_comparable T, template<typename, typename> class Container>
+template<std::three_way_comparable T, template<typename...> class Container>
 void FibonacciHeap<T, Container>::alter_key(const T& key, const T& new_key) {
     auto old = std::find(_nodes.begin(), _nodes.end(), key);
     if (old == _nodes.end()) return;

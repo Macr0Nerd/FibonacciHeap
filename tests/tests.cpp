@@ -4,7 +4,7 @@
 #include <algorithm>
 
 TEST_CASE("heap basic functions", "[heap]") {
-    FibonacciHeap<int> test(10);
+    FibonacciHeap<int> test;
 
     SECTION("init") {
         REQUIRE(test.size() == 0);
@@ -18,11 +18,16 @@ TEST_CASE("heap basic functions", "[heap]") {
         test.insert(15);
 
         REQUIRE(test.size() == 4);
+        auto iter = test.root_list.begin();
 
-        REQUIRE(test.root_list[0]->key == 5);
-        REQUIRE(test.root_list.at(1)->key.value() == -1);
-        REQUIRE(test.root_list.at(2)->key.value() == 0);
-        REQUIRE(test.root_list.at(3)->key.value() == 15);
+        REQUIRE((*iter)->key == 5);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == -1);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == 0);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == 15);
+        iter = std::next(iter);
     }
 
     SECTION("get_minimum") {
@@ -32,10 +37,12 @@ TEST_CASE("heap basic functions", "[heap]") {
         test.insert(15);
 
         auto min = test.get_minimum();
+        auto iter = min->children.begin();
 
         REQUIRE(min->key.value() == -1);
-        REQUIRE(min->children.at(0)->key.value() == 5);
-        REQUIRE(min->children.at(1)->children.at(0)->key.value() == 15);
+        REQUIRE((*iter)->key.value() == 5);
+        iter = std::next(iter);
+        REQUIRE((*iter)->children.front()->key.value() == 15);
 
         min = test.get_minimum();
 
@@ -53,10 +60,12 @@ TEST_CASE("heap basic functions", "[heap]") {
         }
 
         min = test.get_minimum();
+        iter = test.root_list.begin();
 
         REQUIRE(min->key.value() == 0);
-        REQUIRE(test.root_list.at(0)->key .value()== 5);
-        REQUIRE(test.root_list.at(1)->children.at(0)->key.value() == 15);
+        REQUIRE((*iter)->key.value()== 5);
+        iter = std::next(iter);
+        REQUIRE((*iter)->children.front()->key.value() == 15);
     }
 
     SECTION("alter_key") {
@@ -78,11 +87,17 @@ TEST_CASE("heap basic functions", "[heap]") {
 
         min = test.get_minimum();
 
+        auto iter = test.root_list.begin();
+
         REQUIRE(test.size() == 8);
         REQUIRE(min->key.value() == -15);
-        REQUIRE(test.root_list.at(0)->key.value() == 8);
-        REQUIRE(test.root_list.at(1)->key.value() == -15);
-        REQUIRE(test.root_list.at(1)->children.at(1)->key.value() == -4);
-        REQUIRE(test.root_list.at(1)->children.at(2)->children.at(1)->key.value() == 0);
+        REQUIRE((*iter)->key.value() == 8);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == -15);
+
+        iter = std::next((*iter)->children.begin());
+        REQUIRE((*iter)->key.value() == -4);
+        iter = std::next((*std::next(iter))->children.begin());
+        REQUIRE((*iter)->key.value() == 0);
     }
 }

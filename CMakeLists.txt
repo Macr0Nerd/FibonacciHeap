@@ -5,15 +5,20 @@ project(FibonacciHeap VERSION 1.0.0 LANGUAGES CXX)
 # Dependencies #
 ################
 
-Include(FetchContent)
-FetchContent_Declare(
-        Catch2
-        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG        v3.1.0
-        FIND_PACKAGE_ARGS 3 NAMES Catch2
-)
-FetchContent_MakeAvailable(Catch2)
-list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+    Include(FetchContent)
+    FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+            GIT_TAG        v3.1.0
+            FIND_PACKAGE_ARGS 3 NAMES Catch2
+    )
+    FetchContent_MakeAvailable(Catch2)
+    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+
+    include(CTest)
+    include(Catch)
+endif ()
 
 find_package(Git QUIET)
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/../.git")
@@ -49,11 +54,6 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         )
-
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    include(CTest)
-    include(Catch)
-endif ()
 
 ##########################
 # Set optimization flags #
