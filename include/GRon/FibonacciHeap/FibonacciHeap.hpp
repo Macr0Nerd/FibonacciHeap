@@ -17,20 +17,20 @@ namespace GRon {
         struct Node {
             std::optional<T> key{std::nullopt};
             bool marked{false};
-            Container<Node *> children{};
-            Node *parent{nullptr};
+            Container<Node*> children{};
+            Node* parent{nullptr};
 
             Node() = default;
 
             explicit Node(T value) : key(value) {};
 
-            Node(const Node &) = default;
+            Node(const Node&) = default;
 
-            Node(Node &&) noexcept = default;
+            Node(Node&&) noexcept = default;
 
-            Node &operator=(const Node &) = default;
+            Node& operator=(const Node&) = default;
 
-            Node &operator=(Node &&) noexcept = default;
+            Node& operator=(Node&&) noexcept = default;
 
             virtual ~Node() = default;
 
@@ -38,29 +38,29 @@ namespace GRon {
 
             [[nodiscard]] size_t size() const;
 
-            bool operator==(const Node &obj) const;
+            bool operator==(const Node& obj) const;
 
             bool operator==(const T &obj) const;
 
-            std::weak_ordering operator<=>(Node &obj) const;
+            std::weak_ordering operator<=>(Node& obj) const;
 
             std::weak_ordering operator<=>(T &obj) const;
         };
 
-        Container<Node *> root_list;
+        Container<Node*> root_list;
 
         FibonacciHeap() = default;
 
         explicit FibonacciHeap(size_t reserve) : _size(0), _clean(false), _minimum(nullptr), _nodes(reserve),
                                                  _removed(), root_list() {};
 
-        FibonacciHeap(const FibonacciHeap &) = default;
+        FibonacciHeap(const FibonacciHeap&) = default;
 
-        FibonacciHeap(FibonacciHeap &&) noexcept = default;
+        FibonacciHeap(FibonacciHeap&&) noexcept = default;
 
-        FibonacciHeap &operator=(const FibonacciHeap &) = default;
+        FibonacciHeap& operator=(const FibonacciHeap&) = default;
 
-        FibonacciHeap &operator=(FibonacciHeap &&) noexcept = default;
+        FibonacciHeap& operator=(FibonacciHeap&&) noexcept = default;
 
         virtual ~FibonacciHeap() = default;
 
@@ -68,7 +68,7 @@ namespace GRon {
 
         void insert(const T &key);
 
-        Node *get_minimum();
+        Node* get_minimum();
 
         std::optional<Node> pop_minimum();
 
@@ -77,11 +77,11 @@ namespace GRon {
     protected:
         size_t _size{0};
         bool _clean{false};
-        Node *_minimum{nullptr};
+        Node* _minimum{nullptr};
         Container<Node> _nodes;
-        Container<Node *> _removed;
+        Container<Node*> _removed;
 
-        void cut_key(Node *node, const T &key);
+        void cut_key(Node* node, const T &key);
     };
 }
 
