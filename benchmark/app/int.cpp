@@ -8,7 +8,7 @@
 
 namespace GRon {
     template<typename T>
-    class priority_queue_mfh : public FibonacciHeap<T> {
+class priority_queue_mfh : public FibonacciHeap<T> {
     public:
 
         priority_queue_mfh() = default;

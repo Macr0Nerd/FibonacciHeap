@@ -7,12 +7,12 @@
 
 /// Node
 template<std::three_way_comparable T, template<typename...> class Container>
-size_t FibonacciHeap<T, Container>::Node::degree() const {
+size_t GRon::FibonacciHeap<T, Container>::Node::degree() const {
     return children.size();
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-size_t FibonacciHeap<T, Container>::Node::size() const {
+size_t GRon::FibonacciHeap<T, Container>::Node::size() const {
     size_t ret = 1;
 
     for (auto& i : children) {
@@ -23,33 +23,33 @@ size_t FibonacciHeap<T, Container>::Node::size() const {
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-bool FibonacciHeap<T, Container>::Node::operator==(const FibonacciHeap::Node& obj) const {
+bool GRon::FibonacciHeap<T, Container>::Node::operator==(const FibonacciHeap::Node& obj) const {
     return key == obj.key;
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-bool FibonacciHeap<T, Container>::Node::operator==(const T& obj) const {
+bool GRon::FibonacciHeap<T, Container>::Node::operator==(const T& obj) const {
     return key == obj;
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-std::weak_ordering FibonacciHeap<T, Container>::Node::operator<=>(Node& obj) const {
+std::weak_ordering GRon::FibonacciHeap<T, Container>::Node::operator<=>(Node& obj) const {
     return key <=> obj.key;
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-std::weak_ordering FibonacciHeap<T, Container>::Node::operator<=>(T& obj) const {
+std::weak_ordering GRon::FibonacciHeap<T, Container>::Node::operator<=>(T& obj) const {
     return key <=> obj;
 }
 
 /// Fibonacci Heap
 template<std::three_way_comparable T, template<typename...> class Container>
-size_t FibonacciHeap<T, Container>::size() const {
+size_t GRon::FibonacciHeap<T, Container>::size() const {
     return _size;
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-void FibonacciHeap<T, Container>::insert(const T& key) {
+void GRon::FibonacciHeap<T, Container>::insert(const T& key) {
     _clean = true;
     _size++;
 
@@ -64,7 +64,7 @@ void FibonacciHeap<T, Container>::insert(const T& key) {
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_minimum() {
+typename GRon::FibonacciHeap<T, Container>::Node* GRon::FibonacciHeap<T, Container>::get_minimum() {
     if (_clean) {
 
 
@@ -124,7 +124,7 @@ typename FibonacciHeap<T, Container>::Node* FibonacciHeap<T, Container>::get_min
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Container>::pop_minimum() {
+std::optional<typename GRon::FibonacciHeap<T, Container>::Node> GRon::FibonacciHeap<T, Container>::pop_minimum() {
     const Node* min = get_minimum();
 
     if (!min) return std::nullopt;
@@ -147,7 +147,7 @@ std::optional<typename FibonacciHeap<T, Container>::Node> FibonacciHeap<T, Conta
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-void FibonacciHeap<T, Container>::cut_key(FibonacciHeap::Node* node, const T& key) {
+void GRon::FibonacciHeap<T, Container>::cut_key(FibonacciHeap::Node* node, const T& key) {
     if (!node) return;
 
     _clean = true;
@@ -171,7 +171,7 @@ void FibonacciHeap<T, Container>::cut_key(FibonacciHeap::Node* node, const T& ke
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-void FibonacciHeap<T, Container>::alter_key(const T& key, const T& new_key) {
+void GRon::FibonacciHeap<T, Container>::alter_key(const T& key, const T& new_key) {
     auto old = std::find(_nodes.begin(), _nodes.end(), key);
     if (old == _nodes.end()) return;
 

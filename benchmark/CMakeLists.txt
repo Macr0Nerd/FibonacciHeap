@@ -4,7 +4,7 @@ cmake_policy(SET CMP0126 NEW)
 
 project(HeapBenchmark VERSION 0.0.0 LANGUAGES CXX)
 
-find_package(FibonacciHeap 1.0.0 REQUIRED)
+find_package(FibonacciHeap 2.0.0 REQUIRED)
 
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/CppBenchmark/CMakeLists.txt")
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")

@@ -14,7 +14,7 @@ int main() {
 
     int pop_cnt = 0, insert_cnt = 0;
 
-    FibonacciHeap<int> test = FibonacciHeap<int>(static_cast<size_t>(n));
+    GRon::FibonacciHeap<int> test = GRon::FibonacciHeap<int>(static_cast<size_t>(n));
     for (int i = 0; i < n; i++) {
         if (!(i % one)) {
             std::cout << '\r' << (i/(double) n) * 100 << "% Complete" << std::flush;

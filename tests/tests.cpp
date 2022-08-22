@@ -4,7 +4,7 @@
 #include <algorithm>
 
 TEST_CASE("heap basic functions", "[heap]") {
-    FibonacciHeap<int> test;
+    GRon::FibonacciHeap<int> test;
 
     SECTION("init") {
         REQUIRE(test.size() == 0);
@@ -50,7 +50,7 @@ TEST_CASE("heap basic functions", "[heap]") {
 
         SECTION("pop_minimum") {
             int min_key = min->key.value();
-            FibonacciHeap<int>::Node pop_min = test.pop_minimum().value();
+            GRon::FibonacciHeap<int>::Node pop_min = test.pop_minimum().value();
 
             REQUIRE(test.size() == 3);
 
@@ -76,7 +76,7 @@ TEST_CASE("heap basic functions", "[heap]") {
         test.get_minimum();
         test.alter_key(15, -15);
 
-        FibonacciHeap<int>::Node* min = test.get_minimum();
+        GRon::FibonacciHeap<int>::Node* min = test.get_minimum();
 
         REQUIRE(min->key == -15);
 

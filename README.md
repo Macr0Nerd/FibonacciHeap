@@ -24,7 +24,7 @@ This project is designed with Modern CMake principals in mind, so it can easily 
 Either install or otherwise link the project, and add:
 
 ```cmake
-find_package(FibonacciHeap 1.0.0 REQUIRED)
+find_package(FibonacciHeap 2.0.0 REQUIRED)
 # Add Targets
 target_link_libraries(foo PRIVATE GRon::FibonacciHeap)
 ```
@@ -32,7 +32,7 @@ target_link_libraries(foo PRIVATE GRon::FibonacciHeap)
 ## API
 The API for the Fibonacci Heap is quite simple:
 
-* `FibonacciHeap<std::three_way_comparable T, class Container = std::list>`
+* `GRon::FibonacciHeap<std::three_way_comparable T, class Container = std::list>`
   * Creates a Fibonacci Heap object with the provided key type T.
   T **must** be `three_way_comparable`, hence the notation above.
 
