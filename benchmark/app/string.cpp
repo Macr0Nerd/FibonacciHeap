@@ -7,7 +7,7 @@
 
 #define run_inf CppBenchmark::Settings().Infinite().Attempts(50)
 #define N 10000000
-#define RATIO 65536
+#define RATIO 32768
 
 namespace GRon {
     template<typename T>
@@ -15,7 +15,7 @@ namespace GRon {
     public:
 
         priority_queue_mfh() = default;
-        priority_queue_mfh(size_t n) : FibonacciHeap<T>(n) {}
+        explicit priority_queue_mfh(size_t n) : FibonacciHeap<T>(n) {}
 
         [[nodiscard]] typename FibonacciHeap<T>::Node& top() {
             return *this->get_minimum();

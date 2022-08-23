@@ -12,7 +12,7 @@ class priority_queue_mfh : public FibonacciHeap<T> {
     public:
 
         priority_queue_mfh() = default;
-        priority_queue_mfh(size_t n) : FibonacciHeap<T>(n) {}
+        explicit priority_queue_mfh(size_t n) : FibonacciHeap<T>(n) {}
 
         [[nodiscard]] typename FibonacciHeap<T>::Node& top() {
             return *this->get_minimum();

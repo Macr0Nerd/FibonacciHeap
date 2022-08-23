@@ -11,7 +11,9 @@
 #include <ostream>
 
 namespace GRon {
-    template<std::three_way_comparable T, template<typename...> class Container = std::list>
+    template<std::three_way_comparable T,
+            template<typename...> class Container = std::list,
+            template<typename...> class Compare = std::less>
     class FibonacciHeap {
     public:
         struct Node {
@@ -34,9 +36,9 @@ namespace GRon {
 
             virtual ~Node() = default;
 
-            [[nodiscard]] size_t degree() const;
+            [[nodiscard]] inline size_t degree() const;
 
-            [[nodiscard]] size_t size() const;
+            [[nodiscard]] inline size_t size() const;
 
             bool operator==(const Node& obj) const;
 
@@ -51,7 +53,7 @@ namespace GRon {
 
         FibonacciHeap() = default;
 
-        explicit FibonacciHeap(size_t reserve) : _size(0), _clean(false), _minimum(nullptr), _nodes(reserve),
+        explicit FibonacciHeap(size_t reserve) : _size(0), _clean(false), _top(nullptr), _nodes(reserve),
                                                  _removed(), root_list() {};
 
         FibonacciHeap(const FibonacciHeap&) = default;
@@ -64,7 +66,7 @@ namespace GRon {
 
         virtual ~FibonacciHeap() = default;
 
-        [[nodiscard]] size_t size() const;
+        [[nodiscard]] inline size_t size() const;
 
         void insert(const T &key);
 
@@ -78,7 +80,7 @@ namespace GRon {
     protected:
         size_t _size{0};
         bool _clean{false};
-        Node* _minimum{nullptr};
+        Node* _top{nullptr};
         Container<Node> _nodes;
         Container<Node*> _removed;
 
