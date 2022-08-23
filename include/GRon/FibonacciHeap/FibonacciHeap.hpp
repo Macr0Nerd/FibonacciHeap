@@ -70,7 +70,8 @@ namespace GRon {
 
         Node* get_minimum();
 
-        std::optional<Node> pop_minimum();
+        std::optional<Node> pop_minimum() &;
+        std::optional<Node> pop_minimum() &&;
 
         void alter_key(const T &key, const T &new_key);
 

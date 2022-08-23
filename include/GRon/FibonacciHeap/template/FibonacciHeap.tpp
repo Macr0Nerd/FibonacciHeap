@@ -124,7 +124,7 @@ typename GRon::FibonacciHeap<T, Container>::Node* GRon::FibonacciHeap<T, Contain
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
-std::optional<typename GRon::FibonacciHeap<T, Container>::Node> GRon::FibonacciHeap<T, Container>::pop_minimum() {
+std::optional<typename GRon::FibonacciHeap<T, Container>::Node> GRon::FibonacciHeap<T, Container>::pop_minimum() & {
     const Node* min = get_minimum();
 
     if (!min) return std::nullopt;
@@ -137,13 +137,34 @@ std::optional<typename GRon::FibonacciHeap<T, Container>::Node> GRon::FibonacciH
     std::erase(root_list, min);
 
     _removed.push_back(&(*std::find(_nodes.begin(), _nodes.end(), *min)));
-    Node ret{std::move(*min)};
 
     _minimum = nullptr;
     _clean = true;
     _size--;
 
-    return ret;
+    return *min;
+}
+
+template<std::three_way_comparable T, template<typename...> class Container>
+std::optional<typename GRon::FibonacciHeap<T, Container>::Node> GRon::FibonacciHeap<T, Container>::pop_minimum() && {
+    const Node* min = get_minimum();
+
+    if (!min) return std::nullopt;
+
+    for (Node* node : min->children) {
+        node->parent = nullptr;
+    }
+
+    root_list.insert(root_list.end(), min->children.begin(), min->children.end());
+    std::erase(root_list, min);
+
+    _removed.push_back(&(*std::find(_nodes.begin(), _nodes.end(), *min)));
+
+    _minimum = nullptr;
+    _clean = true;
+    _size--;
+
+    return std::move(*min);
 }
 
 template<std::three_way_comparable T, template<typename...> class Container>
