@@ -32,7 +32,7 @@ target_link_libraries(foo PRIVATE GRon::FibonacciHeap)
 ## API
 The API for the Fibonacci Heap is quite simple:
 
-* `GRon::FibonacciHeap<std::three_way_comparable T, class Container = std::list>`
+* `GRon::FibonacciHeap<std::three_way_comparable T, class Container = std::list, class Compare = std::less>`
   * Creates a Fibonacci Heap object with the provided key type T.
   T **must** be `three_way_comparable`, hence the notation above.
 
