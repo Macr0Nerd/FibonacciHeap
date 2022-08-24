@@ -37,7 +37,7 @@ namespace GRon {
 
             virtual ~Node() = default;
 
-            [[nodiscard]] inline size_t degree() const;
+            [[nodiscard]] inline size_t degree() const noexcept;
 
             bool operator==(const Node& obj) const;
 
@@ -65,7 +65,7 @@ namespace GRon {
 
         virtual ~FibonacciHeap() = default;
 
-        [[nodiscard]] inline size_t size() const;
+        [[nodiscard]] inline size_t size() const noexcept;
 
         void insert(const T &key);
 

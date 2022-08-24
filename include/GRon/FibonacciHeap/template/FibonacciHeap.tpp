@@ -7,7 +7,7 @@
 
 /// Node
 template<std::three_way_comparable T, template<typename...> class Container, template<typename...> class Compare>
-size_t GRon::FibonacciHeap<T, Container, Compare>::Node::degree() const {
+size_t GRon::FibonacciHeap<T, Container, Compare>::Node::degree() const noexcept {
     return children.size();
 }
 
@@ -33,7 +33,7 @@ std::weak_ordering GRon::FibonacciHeap<T, Container, Compare>::Node::operator<=>
 
 /// Fibonacci Heap
 template<std::three_way_comparable T, template<typename...> class Container, template<typename...> class Compare>
-size_t GRon::FibonacciHeap<T, Container, Compare>::size() const {
+size_t GRon::FibonacciHeap<T, Container, Compare>::size() const noexcept {
     return _size;
 }
 
