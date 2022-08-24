@@ -17,6 +17,7 @@ namespace GRon {
     class FibonacciHeap {
     public:
         struct Node {
+        public:
             std::optional<T> key{std::nullopt};
             bool marked{false};
             Container<Node*> children{};
@@ -37,8 +38,6 @@ namespace GRon {
             virtual ~Node() = default;
 
             [[nodiscard]] inline size_t degree() const;
-
-            [[nodiscard]] inline size_t size() const;
 
             bool operator==(const Node& obj) const;
 

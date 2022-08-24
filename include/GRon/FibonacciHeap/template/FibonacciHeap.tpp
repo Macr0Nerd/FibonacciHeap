@@ -12,17 +12,6 @@ size_t GRon::FibonacciHeap<T, Container, Compare>::Node::degree() const {
 }
 
 template<std::three_way_comparable T, template<typename...> class Container, template<typename...> class Compare>
-size_t GRon::FibonacciHeap<T, Container, Compare>::Node::size() const {
-    size_t ret = 1;
-
-    for (auto& i : children) {
-        ret += i->size();
-    }
-
-    return ret;
-}
-
-template<std::three_way_comparable T, template<typename...> class Container, template<typename...> class Compare>
 bool GRon::FibonacciHeap<T, Container, Compare>::Node::operator==(const FibonacciHeap::Node& obj) const {
     return key == obj.key;
 }
