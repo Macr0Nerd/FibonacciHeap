@@ -3,8 +3,8 @@
 #include <iostream>
 
 int main() {
-    int n = 10000000;
-    int ratio = 4096;
+    int n = 100000;
+    int ratio = 512;
     bool invert = false;
 
     int one = n/100;

@@ -118,7 +118,7 @@ typename GRon::FibonacciHeap<T, Container, Compare>::Node* GRon::FibonacciHeap<T
 
 template<std::three_way_comparable T, template<typename...> class Container, template<typename...> class Compare>
 std::optional<typename GRon::FibonacciHeap<T, Container, Compare>::Node> GRon::FibonacciHeap<T, Container, Compare>::pop_minimum() & {
-    const Node* min = get_minimum();
+    Node* min = get_minimum();
 
     if (!min) return std::nullopt;
 
@@ -129,7 +129,7 @@ std::optional<typename GRon::FibonacciHeap<T, Container, Compare>::Node> GRon::F
     root_list.insert(root_list.end(), min->children.begin(), min->children.end());
     std::erase(root_list, min);
 
-    _removed.push_back(&(*std::find(_nodes.begin(), _nodes.end(), *min)));
+    _removed.push_back(min);
 
     _top = nullptr;
     _clean = true;
