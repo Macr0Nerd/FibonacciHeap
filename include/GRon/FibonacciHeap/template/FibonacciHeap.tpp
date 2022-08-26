@@ -66,7 +66,7 @@ typename GRon::FibonacciHeap<T, Container, Compare>::Node* GRon::FibonacciHeap<T
         Node* current{nullptr};
         Node* node{nullptr};
         Compare<T> compare{};
-        auto start = degree_list.begin();
+        auto start = std::begin(degree_list);
         for (Node* root : root_list) {
             if (!root) continue;
 
@@ -126,7 +126,7 @@ std::optional<typename GRon::FibonacciHeap<T, Container, Compare>::Node> GRon::F
         node->parent = nullptr;
     }
 
-    root_list.insert(root_list.end(), min->children.begin(), min->children.end());
+    root_list.insert(std::end(root_list), std::begin(min->children), std::end(min->children));
     std::erase(root_list, min);
 
     _removed.push_back(min);
@@ -140,7 +140,7 @@ std::optional<typename GRon::FibonacciHeap<T, Container, Compare>::Node> GRon::F
 
 template<std::three_way_comparable T, template<typename...> class Container, template<typename...> class Compare>
 std::optional<typename GRon::FibonacciHeap<T, Container, Compare>::Node> GRon::FibonacciHeap<T, Container, Compare>::pop_minimum() && {
-    const Node* min = get_minimum();
+    Node* min = get_minimum();
 
     if (!min) return std::nullopt;
 
@@ -148,10 +148,10 @@ std::optional<typename GRon::FibonacciHeap<T, Container, Compare>::Node> GRon::F
         node->parent = nullptr;
     }
 
-    root_list.insert(root_list.end(), min->children.begin(), min->children.end());
+    root_list.insert(std::end(root_list), std::begin(min->children), std::end(min->children));
     std::erase(root_list, min);
 
-    _removed.push_back(&(*std::find(_nodes.begin(), _nodes.end(), *min)));
+    _removed.push_back(min);
 
     _top = nullptr;
     _clean = true;
@@ -174,7 +174,7 @@ void GRon::FibonacciHeap<T, Container, Compare>::cut_key(FibonacciHeap::Node* no
     root_list.push_back(node);
 
     if (old_parent) {
-        old_parent->children.erase(std::remove(old_parent->children.begin(), old_parent->children.end(), node));
+        old_parent->children.erase(std::remove(std::begin(old_parent->children), std::end(old_parent->children), node));
 
         if (!old_parent->marked) {
             old_parent->marked = true;
@@ -186,8 +186,8 @@ void GRon::FibonacciHeap<T, Container, Compare>::cut_key(FibonacciHeap::Node* no
 
 template<std::three_way_comparable T, template<typename...> class Container, template<typename...> class Compare>
 void GRon::FibonacciHeap<T, Container, Compare>::alter_key(const T& key, const T& new_key) {
-    auto old = std::find(_nodes.begin(), _nodes.end(), key);
-    if (old == _nodes.end()) return;
+    auto old = std::find(std::begin(_nodes), std::end(_nodes), key);
+    if (old == std::end(_nodes)) return;
 
     cut_key(&(*old), new_key);
 }
