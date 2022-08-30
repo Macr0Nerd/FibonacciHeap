@@ -53,7 +53,7 @@ namespace GRon {
 
         FibonacciHeap() = default;
 
-        template<class... Args, typename = std::enable_if_t<(!std::is_base_of_v<FibonacciHeap, Args> && ...)>>
+        template<class... Args, typename = std::enable_if_t<(!std::is_base_of_v<FibonacciHeap, std::decay_t<Args>> && ...)>>
         explicit FibonacciHeap(Args&&... args) : _size(0), _clean(false), _top(nullptr),
                                                 _nodes(std::forward<Args...>(args...)), _removed(), root_list() {};
 

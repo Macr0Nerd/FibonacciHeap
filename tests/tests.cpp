@@ -107,10 +107,21 @@ TEST_CASE("heap basic functions", "[heap]") {
         test.insert(0);
         test.insert(15);
 
-        GRon::FibonacciHeap<int> copied(std::move(test));
+        GRon::FibonacciHeap<int> copied(test);
 
         REQUIRE(copied.size() == 4);
         auto iter = copied.root_list.begin();
+
+        REQUIRE((*iter)->key == 5);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == -1);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == 0);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == 15);
+
+        REQUIRE(test.size() == 4);
+        iter = test.root_list.begin();
 
         REQUIRE((*iter)->key == 5);
         iter = std::next(iter);
