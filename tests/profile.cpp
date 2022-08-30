@@ -30,6 +30,8 @@ int main() {
         insert_cnt++;
     }
 
+    std::cout << '\r' << 100 << "% Complete" << std::flush;
+
     std::cout << std::endl;
     std::cout << "Results" << std::endl;
     std::cout << "==============" << std::endl;

@@ -27,7 +27,6 @@ TEST_CASE("heap basic functions", "[heap]") {
         REQUIRE((*iter)->key.value() == 0);
         iter = std::next(iter);
         REQUIRE((*iter)->key.value() == 15);
-        iter = std::next(iter);
     }
 
     SECTION("get_minimum") {
@@ -100,5 +99,45 @@ TEST_CASE("heap basic functions", "[heap]") {
         REQUIRE((*iter)->key.value() == -4);
         iter = std::next((*std::next(iter))->children.begin());
         REQUIRE((*iter)->key.value() == 0);
+    }
+
+    SECTION("copy ctor") {
+        test.insert(5);
+        test.insert(-1);
+        test.insert(0);
+        test.insert(15);
+
+        GRon::FibonacciHeap<int> copied(std::move(test));
+
+        REQUIRE(copied.size() == 4);
+        auto iter = copied.root_list.begin();
+
+        REQUIRE((*iter)->key == 5);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == -1);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == 0);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == 15);
+    }
+
+    SECTION("move ctor") {
+        test.insert(5);
+        test.insert(-1);
+        test.insert(0);
+        test.insert(15);
+
+        GRon::FibonacciHeap<int> moved(std::move(test));
+
+        REQUIRE(moved.size() == 4);
+        auto iter = moved.root_list.begin();
+
+        REQUIRE((*iter)->key == 5);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == -1);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == 0);
+        iter = std::next(iter);
+        REQUIRE((*iter)->key.value() == 15);
     }
 }

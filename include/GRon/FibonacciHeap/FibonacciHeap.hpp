@@ -9,6 +9,7 @@
 #include <memory>
 #include <optional>
 #include <ostream>
+#include <type_traits>
 
 namespace GRon {
     template<std::three_way_comparable T,
@@ -52,8 +53,9 @@ namespace GRon {
 
         FibonacciHeap() = default;
 
-        explicit FibonacciHeap(size_t reserve) : _size(0), _clean(false), _top(nullptr), _nodes(reserve),
-                                                 _removed(), root_list() {};
+        template<class... Args, typename = std::enable_if_t<(!std::is_base_of_v<FibonacciHeap, Args> && ...)>>
+        explicit FibonacciHeap(Args&&... args) : _size(0), _clean(false), _top(nullptr),
+                                                _nodes(std::forward<Args...>(args...)), _removed(), root_list() {};
 
         FibonacciHeap(const FibonacciHeap&) = default;
 

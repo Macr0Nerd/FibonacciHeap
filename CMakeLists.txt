@@ -63,7 +63,6 @@ set(SANITIZE "OFF" CACHE STRING "Set the sanitizer to pass (the value provided w
 if (NOT CMAKE_CXX_FLAGS)
     if (NOT ${SANITIZE} STREQUAL "OFF")
         target_compile_options(${PROJECT_NAME} INTERFACE -fsanitize=${SANITIZE})
-        target_compile_options(${PROJECT_NAME} INTERFACE -fsanitize-recover=${SANITIZE})
         target_compile_options(${PROJECT_NAME} INTERFACE -g)
         target_link_options(${PROJECT_NAME} INTERFACE -fsanitize=${SANITIZE})
     endif ()

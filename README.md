@@ -35,6 +35,7 @@ The API for the Fibonacci Heap is quite simple:
 * `GRon::FibonacciHeap<std::three_way_comparable T, class Container = std::list, class Compare = std::less>`
   * Creates a Fibonacci Heap object with the provided key type T.
   T **must** be `three_way_comparable`, hence the notation above.
+  * There are default, move, and copy constructors as well as a perfect forwarding constructor that forwards all arguments to Container's constructor.
   * Container **must have reference stability**.
   If Container lacks reference stability, the heap will not function properly and data may be lost.
   Furthermore, Container must also have the following functions:
@@ -42,8 +43,6 @@ The API for the Fibonacci Heap is quite simple:
     * `push_back`
     * `size`
     * `back`
-    * `begin`
-    * `end`
 
   * `Node`
     * The format the data in the heap is stored in.
