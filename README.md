@@ -24,7 +24,7 @@ This project is designed with Modern CMake principals in mind, so it can easily 
 Either install or otherwise link the project, and add:
 
 ```cmake
-find_package(FibonacciHeap 2.0.0 REQUIRED)
+find_package(FibonacciHeap 2.1.0 REQUIRED)
 # Add Targets
 target_link_libraries(foo PRIVATE GRon::FibonacciHeap)
 ```
