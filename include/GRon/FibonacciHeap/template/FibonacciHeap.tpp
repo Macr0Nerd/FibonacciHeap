@@ -47,7 +47,7 @@ void GRon::FibonacciHeap<T, Container, Compare>::insert(const T& key) {
         return;
     }
 
-    *_removed.back() = Node(key);
+    *_removed.back() = std::move(Node(key));
     root_list.push_back(_removed.back());
     _removed.pop_back();
 }
